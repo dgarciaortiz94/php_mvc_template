@@ -1,0 +1,25 @@
+{
+    "name": "diegogarcia/checkinput",
+    "authors": [
+        {
+            "name": "Diego Garcia",
+            "email": "dgarciaortiz94@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Controllers\\" : "controllers/",
+            "Core\\" : "core/",
+            "Exceptions\\" : "exceptions/",
+            "Helpers\\" : "helpers/",
+            "Models\\" : "models/" 
+        }
+    },
+    "require": {
+
+    },
+    "require-dev": {
+        
+    }
+}

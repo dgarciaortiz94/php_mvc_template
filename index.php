@@ -1,16 +1,13 @@
 <?php
 
+namespace App;
+
 require_once "vendor/autoload.php";
 
-use Controllers\IndexController;
-use Helpers\Request;
+use App\Controllers\IndexController;
+use App\Core\Request;
 
-if (isset($_GET["class"])) {
-    $namespaceClass = "Controllers\\" . $_GET["class"];
-    $class = new $namespaceClass();
-}else{
-    $class = new IndexController();
-}
+$class = isset($_GET['class']) ? $class = new $_GET["class"]() : $class = new IndexController();
 
 $function = isset($_GET["function"]) ? $_GET["function"] : "index";
 

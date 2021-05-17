@@ -1,10 +1,10 @@
 <?php
 
-namespace Controllers;
+namespace App\Controllers;
 
-use Core\Controller;
-use Models\Users;
-use Helpers\Request;
+use App\Core\Controller;
+use App\Core\Request;
+use App\Models\Users;
 
 class IndexController extends Controller
 {

@@ -15,6 +15,10 @@ class ComposerStaticInit5b6d535421234a3e6cc596afaab2afdc
         array (
             'Helpers\\' => 8,
         ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
         'E' => 
         array (
             'Exceptions\\' => 11,
@@ -34,6 +38,10 @@ class ComposerStaticInit5b6d535421234a3e6cc596afaab2afdc
         'Helpers\\' => 
         array (
             0 => __DIR__ . '/../..' . '/helpers',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'Exceptions\\' => 
         array (

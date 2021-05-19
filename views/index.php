@@ -19,8 +19,18 @@ use Core\View;
 
     <p>Hola, soy el Index principal</p>
 
-    <a href="?class=IndexController&function=prueba&id=1&nombre=diego">Ir a prueba</a>
+    <form action="/?class=IndexController&function=login" method="POST" id="form">
+        
+        <label for="username">Username</label>
+        <input type="text" name="username">
+        <label for="pass">Pass</label>
+        <input type="text" name="pass">
+        <input type="submit" value="Enviar" id="send">
+    </form>
 
     <?php View::require("general/footer") ?>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
 </body>
 </html>

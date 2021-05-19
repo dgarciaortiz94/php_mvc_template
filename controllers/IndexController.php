@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Controllers;
+namespace Controllers;
 
-use App\Core\Controller;
-use App\Core\Request;
-use App\Models\Users;
+use Core\Authentication\Auth;
+use Core\Controller;
+use Core\Request;
+use Models\Users;
 
 class IndexController extends Controller
 {
@@ -25,12 +26,19 @@ class IndexController extends Controller
     }
 
 
-    public function prueba(Request $request)
+    public function login(Request $request)
     {
-        $user = new Users();
+        $username = $request->post['username'];
+        $pass = $request->post['pass'];
 
-        $this->data["users"] = $user->getById($request->get["id"]);
+        Auth::logIn($username, $pass);
+    }
 
-        $this->render("prueba");
+
+    public function verToken()
+    {
+        $this->data["h"] = "";
+
+        $this->render('verToken');
     }
 }

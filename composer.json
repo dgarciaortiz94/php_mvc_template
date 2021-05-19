@@ -17,9 +17,6 @@
         }
     },
     "require": {
-
-    },
-    "require-dev": {
-        
+        "firebase/php-jwt": "^5.2"
     }
 }

@@ -5,10 +5,12 @@ namespace Core;
 Class View
 {
     
-    public function returnView(string $view, array $vars = array())
+    public function returnView(string $view, $vars = null)
     {
-        foreach ($vars as $key => $value) {
-            $$key = $value;
+        if (isset($vars)) {
+            foreach ($vars as $key => $value) {
+                $$key = $value;
+            }
         }
 
         require "views/$view.php";

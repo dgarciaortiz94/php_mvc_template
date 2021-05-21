@@ -31,14 +31,16 @@ class IndexController extends Controller
         $username = $request->post['username'];
         $pass = $request->post['pass'];
 
-        Auth::logIn($username, $pass);
+        $success = Auth::logIn($username, $pass);
+
+        if (!$success) {
+            die(header("HTTP/1.0 513 Login failure"));;
+        }
     }
 
 
     public function verToken()
     {
-        $this->data["h"] = "";
-
         $this->render('verToken');
     }
 }

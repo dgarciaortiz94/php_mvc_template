@@ -4,41 +4,50 @@ session_start();
 require_once "vendor/autoload.php";
 
 use Controllers\IndexController;
+use Core\Authentication\Auth;
 use Core\Request;
 
 
-echo $_SERVER['REQUEST_METHOD'] . "<br>";
-
-if (isset($_GET["class"])) {
-    $namespaceClass = "Controllers\\" . $_GET["class"];
+if (isset($_REQUEST['class'])) {
+    $namespaceClass = "Controllers\\" . $_REQUEST["class"];
     $class = new $namespaceClass();
 }else{
     $class = new IndexController();
 }
 
-$function = isset($_GET["function"]) ? $_GET["function"] : "index";
+$function = isset($_REQUEST["function"]) ? $_REQUEST["function"] : "index";
 
-if (count($_POST) > 0) {
-    $request = new Request();
+$namespaceClass = explode("\\", get_class($class));  //EXTRACT CLASS NAME WITHOUT NAMESPACE, ONLY CLASS NAME
+$className = array_pop($namespaceClass);
 
-    if (isset($_GET["class"])) {
-        $namespaceClass = "Controllers\\" . $_GET["class"];
-        $class = new $namespaceClass();
+$file = json_decode(file_get_contents("middlewares/middlewares.json"), true);
 
-        $function = isset($_GET["function"]) ? $_GET["function"] : "index";
-    }else{
-        $myClass = $request->post['class'];   
-        $namespaceClass = "Controllers\\" . $myClass;
-    
-        $class = new $namespaceClass;
-        $function = $request->post['function'];
+if (isset($_SESSION['token'])) {
+    $dataUser = Auth::GetData($_SESSION['token']);
+
+    foreach ($file as $key => $value) 
+    {
+        $functionAndClass = explode(".", $key);
+        $middlewareClass = $functionAndClass[0];
+        $middlewareFunction = $functionAndClass[1];
+
+        if ($className == $middlewareClass && $function == $middlewareFunction && $dataUser->role != $value) {
+            die(header('HTTP/1.1 512 Access not allowed for your user'));
+        }
     }
-
-    $class->$function($request);
-}elseif (count($_GET) > 2 || (!isset($_GET['function']) && count($_GET) > 1) || (!isset($_GET['class']) && !isset($_GET['function']) && count($_GET) > 0)) {
-    $request = new Request();
-
-    $class->$function($request);
 }else{
-    $class->$function();
+    foreach ($file as $key => $value) 
+    {
+        $functionAndClass = explode(".", $key);
+        $middlewareClass = $functionAndClass[0];
+        $middlewareFunction = $functionAndClass[1];
+
+        if ($className == $middlewareClass && $function == $middlewareFunction) {
+            die(header('HTTP/1.1 512 Access not allowed for your user'));
+        }
+    }
 }
+
+$request = new Request();
+
+$class->$function($request);

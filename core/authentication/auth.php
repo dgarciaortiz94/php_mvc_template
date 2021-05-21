@@ -41,9 +41,9 @@ class Auth
 
             $_SESSION['token'] = $token;
 
-            echo $token;
+            return true;
         }else{
-            echo "Error al escribir usuario o contraseña";
+            return false;
         }
     }
 

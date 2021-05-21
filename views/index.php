@@ -20,7 +20,6 @@ use Core\View;
     <p>Hola, soy el Index principal</p>
 
     <form action="/?class=IndexController&function=login" method="POST" id="form">
-        
         <label for="username">Username</label>
         <input type="text" name="username">
         <label for="pass">Pass</label>
@@ -31,6 +30,6 @@ use Core\View;
     <?php View::require("general/footer") ?>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
+    <script src="/public/js/index.js"></script>
 </body>
 </html>

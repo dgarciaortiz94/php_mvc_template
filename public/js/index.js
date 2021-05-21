@@ -10,8 +10,12 @@ $("#send").click(function(e){
         success: function(response) {
             location.href = "/?class=IndexController&function=verToken";
         },
-        error: function() {
-        console.log("No se ha podido obtener la información");
+        error: function(error) {
+            if (error['status'] === 513) {
+                console.log("Usuario o contraseña incorrectos");
+            }else{
+                console.log(error);
+            }
         }
     });
 });

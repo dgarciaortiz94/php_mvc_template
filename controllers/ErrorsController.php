@@ -5,9 +5,8 @@ namespace Controllers;
 use Core\Authentication\Auth;
 use Core\Controller;
 use Core\Request;
-use Models\Users;
 
-class IndexController extends Controller
+class ErrorsController extends Controller
 {
 
     public function __construct()
@@ -16,12 +15,16 @@ class IndexController extends Controller
     }
 
 
-    public function index()
+    public function error404()
     {
-        $user = new Users();
+        $this->data[""] = "";
 
-        $this->data["users"] = $user->getAll();
-        
+        $this->render('errors/404');
+    }
+
+
+    public function index()
+    {   
         $this->render("index");
     }
 

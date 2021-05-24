@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '63ea8191c7de75bae0132f168626027432057a4e',
+    'reference' => '288c74cf6c278325cc42f7a6ec0349fe9f7e61d6',
     'name' => 'diegogarcia/checkinput',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '63ea8191c7de75bae0132f168626027432057a4e',
+      'reference' => '288c74cf6c278325cc42f7a6ec0349fe9f7e61d6',
     ),
     'firebase/php-jwt' => 
     array (

@@ -19,7 +19,7 @@ use Core\View;
 
     <p>Hola, soy el Index principal</p>
 
-    <form action="/?class=IndexController&function=login" method="POST" id="form">
+    <form action="/login" method="POST" id="form">
         <label for="username">Username</label>
         <input type="text" name="username">
         <label for="pass">Pass</label>

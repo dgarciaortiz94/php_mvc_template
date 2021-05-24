@@ -21,7 +21,7 @@ class Auth
         $userObject = new Users;
         $users = $userObject->getByQuery("SELECT * FROM users WHERE username = '$username' AND pass = '$pass'");
 
-        if (count($users) == 1 && $users[0]->role == 1){
+        if (count($users) == 1){
             $user = $users[0];
 
             $dataToken = array(

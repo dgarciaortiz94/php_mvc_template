@@ -4,11 +4,11 @@ $("#send").click(function(e){
     let data = $("#form").serialize();
 
     $.ajax({
-        url: '/?class=IndexController&function=login',
+        url: '/login',
         data: data,
         type: "POST",
         success: function(response) {
-            location.href = "/?class=IndexController&function=verToken";
+            location.href = "/vertoken";
         },
         error: function(error) {
             if (error['status'] === 513) {

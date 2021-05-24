@@ -1,0 +1,6 @@
+{
+    "/" : "IndexController.index",
+    "/login" : "IndexController.login",
+    "/verinfo" : "IndexController.prueba",
+    "/vertoken" : "IndexController.verToken"
+}

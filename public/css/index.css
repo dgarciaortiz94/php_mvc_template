@@ -1,0 +1,67 @@
+body{
+    background-image: url("../images/home-background.jpg");
+    background-position: center center;
+    background-size: cover;
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+}
+
+.container{
+    background-color: rgba(90, 90, 90, 0.5);
+}
+
+header{
+    padding: 1% 0;
+}
+
+header>p:first-child{
+    width: 90%;
+    margin: auto;
+}
+
+.footer>p:first-child{
+    border-bottom: rgba(136, 136, 136, 0.3) 1px solid;
+    padding: 2% 0;
+}
+
+.links{
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 5% 0;
+    margin: 3% 0;
+}
+
+.row{
+    margin: 3% 0;
+}
+
+.display-1{
+    font-size: 4rem;
+}
+
+.display-2{
+    font-size: 3rem;
+}
+
+.display-3{
+    font-size: 2rem;
+}
+
+.display-4{
+    font-size: 1rem;
+}
+
+
+@media(max-width: 575px) {
+    
+    header>p:first-child{
+        text-align: center;
+    }
+
+    .container{
+        background-color: transparent;
+    }
+}

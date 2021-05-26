@@ -12,7 +12,11 @@ class Controller
     {   
         $viewObject = new View();
 
-        $viewObject->returnView($view, $this->data);
+        if (isset($this->data)) {
+            $viewObject->returnView($view, $this->data);
+        }else{
+            $viewObject->returnView($view);
+        }
     }
 
 }

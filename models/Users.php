@@ -3,11 +3,12 @@
 namespace Models;
 
 use Core\Model;
+use PDO;
 
 class Users extends Model
 {
 
-    private $username, $firstname, $lastname;
+    private $username, $firstname, $lastname, $email;
     private $date_register, $last_connection;
     private $status;
     private $token;
@@ -18,7 +19,33 @@ class Users extends Model
     {
         parent::__construct();
     }
+
+
+    public function constructUser(string $username, string $firstname, string $lastname, string $email, string $pass)
+    {
+        $user = new Users();
+
+        $user->username = $username;
+        $user->firstname = $firstname;
+        $user->lastname = $lastname;
+        $user->email = $email;
+        $user->pass = $pass;
+
+        return $user;
+    }
   
+
+    public function insertUser()
+    {
+        $sql = "INSERT INTO users(username, firstname, lastname, email, pass, date_register, last_connection, status, role) 
+                VALUES(?, ?, ?, ?, ?, SYSDATE(), SYSDATE(), 1, 2)";
+
+        $statement = $this->connection->prepare($sql);
+        
+        $success = $statement->execute(array($this->username, $this->firstname, $this->lastname, $this->email, $this->pass));
+
+        return $success;
+    }
 
 
     /**

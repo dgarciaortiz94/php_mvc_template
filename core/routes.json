@@ -1,6 +1,9 @@
 {
     "/" : "IndexController.index",
-    "/login" : "IndexController.login",
+    "/login" : "LoginController.index",
+    "/userLogin" : "LoginController.login",
+    "/register" : "RegisterController.index",
+    "/userRegister" : "RegisterController.register",
     "/verinfo" : "IndexController.prueba",
     "/vertoken" : "IndexController.verToken"
 }

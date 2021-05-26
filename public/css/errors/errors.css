@@ -1,0 +1,42 @@
+body{
+    background-color: rgb(231, 231, 231);
+    color: rgb(150, 150, 150);
+}
+
+.container{
+    background-color: white;
+    border: rgb(196, 196, 196) 1px solid;
+    margin-top: 3%;
+}
+
+.header{
+    background-color: white;
+    border: rgb(196, 196, 196) 1px solid;
+    margin-top: 3%;
+}
+
+.section>p:first-child{
+    border-bottom: rgb(196, 196, 196) 1px solid;
+    padding: 2% 0;
+}
+
+.footer>p:first-child{
+    border-bottom: rgb(196, 196, 196) 1px solid;
+    padding: 2% 0;
+}
+
+.display-1{
+    font-size: 4rem;
+}
+
+.display-2{
+    font-size: 3rem;
+}
+
+.display-3{
+    font-size: 2rem;
+}
+
+.display-4{
+    font-size: 1rem;
+}

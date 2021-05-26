@@ -45,11 +45,13 @@ class Model
 
     public function getByColumn(string $column, $value)
     {
-        $sql = "SELECT * FROM $this->table WHERE ? = ?";
+        $sql = "SELECT * FROM $this->table WHERE $column = ?";
 
         $statement = $this->connection->prepare($sql);
         
-        $resulset = $statement->execute(array($column, $value))->fetchAll(PDO::FETCH_OBJ);
+        $statement->execute(array($value));
+        
+        $resulset = $statement->fetchAll(PDO::FETCH_OBJ);
 
         return $resulset;
     }
@@ -62,6 +64,18 @@ class Model
         $resulset = $this->connection->query($sql)->fetchAll(PDO::FETCH_OBJ);
 
         return $resulset;
+    }
+
+
+    public function updateById(int $id, string $column, $value)
+    {
+        $sql = "UPDATE $this->table SET $column = ? WHERE id = ?";
+
+        $statement = $this->connection->prepare($sql);
+        
+        $success = $statement->execute(array($value, $id));
+
+        return $success;
     }
 
 

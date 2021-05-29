@@ -38,7 +38,7 @@ class Users extends Model
     public function insertUser()
     {
         $sql = "INSERT INTO users(username, firstname, lastname, email, pass, date_register, last_connection, status, role) 
-                VALUES(?, ?, ?, ?, ?, SYSDATE(), SYSDATE(), 1, 2)";
+                VALUES(?, ?, ?, ?, ?, SYSDATE(), SYSDATE(), 1, 3)";
 
         $statement = $this->connection->prepare($sql);
         

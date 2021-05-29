@@ -24,29 +24,33 @@ class Auth
 
         $loginIsCorrect = Validations::validateLogin(array($username, $pass));
 
-        if (!$loginIsCorrect) die(header("HTTP/1.0 518 There are empty fields"));
+        if (!$loginIsCorrect) die(header("HTTP/1.1 518 There are empty fields"));
 
         if (isset($request->post['remember'])) {
             $rememberUser = $request->post['remember'];
         }
 
         $userObject = new Users;
-        $users = $userObject->getByQuery("SELECT * FROM users WHERE username = '$username' AND pass = '$pass'");
+        $users = $userObject->getByQuery("SELECT * FROM users WHERE username = '$username'");
 
         if (count($users) == 1){
             $user = $users[0];
 
-            $token = self::createToken($user);
+            if (password_verify($pass, $user->pass)) {
+                $token = self::createToken($user);
 
-            $_SESSION['token'] = $token;
+                $_SESSION['token'] = $token;
 
-            if (isset($$rememberUser)) {
-                $_COOKIE['session'] = $token;
+                if (isset($$rememberUser)) {
+                    $_COOKIE['session'] = $token;
+                }
+
+                return true;
+            }else{
+                die(header("HTTP/1.1 513 Incorrect data"));
             }
-
-            return true;
         }else{
-            die(header("HTTP/1.0 513 Incorrect data"));
+            die(header("HTTP/1.1 513 Incorrect data"));
         }
     }
 
@@ -63,9 +67,12 @@ class Auth
         $dataArray = array($username, $pass, $firstname, $lastname, $email, $repeatPass);
 
         $registerIsCorrect = Validations::validateRegister($dataArray, $email);
+        
+        if (!$registerIsCorrect) {
+            die(header("HTTP/1.1 518 Register failure"));
+        }
 
-        if ($registerIsCorrect == "empty fields") die(header("HTTP/1.0 518 There are empty fields"));
-        if ($registerIsCorrect == "email not valid") die(header("HTTP/1.0 518 Email not valid"));
+        $pass = password_hash($pass, PASSWORD_DEFAULT);
 
         $userObject = new Users;
         $users = $userObject->getByColumn("username", $username);
@@ -78,7 +85,7 @@ class Auth
             if ($success) {
                 $registeredUser = $userObject->getByColumn("username", $username)[0];
             }else{
-                die(header("HTTP/1.0 515 The user could not be saved"));
+                die(header("HTTP/1.1 515 The user could not be saved"));
             }
 
             $token = self::createToken($registeredUser);
@@ -94,16 +101,16 @@ class Auth
 
                 return true;
             }else{
-                die(header("HTTP/1.0 516 The token could not be updated"));
+                die(header("HTTP/1.1 516 The token could not be updated"));
             }
 
         }else{
-            die(header("HTTP/1.0 517 Username exists"));
+            die(header("HTTP/1.1 517 Username exists"));
         }
     }
 
 
-    private static function createToken(Users $user)
+    private static function createToken($user)
     {
         $dataToken = array(
             'exp' => self::$timeExpire,
@@ -113,6 +120,7 @@ class Auth
                 'username' => $user->username,
                 'firstname' => $user->firstname,
                 'lastname' => $user->lastname,
+                'email' => $user->email,
                 'date_register' => $user->date_register,
                 'role' => $user->role,
             ]

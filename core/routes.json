@@ -2,8 +2,7 @@
     "/" : "IndexController.index",
     "/login" : "LoginController.index",
     "/userLogin" : "LoginController.login",
-    "/register" : "RegisterController.index",
+    "/registro" : "RegisterController.index",
     "/userRegister" : "RegisterController.register",
-    "/verinfo" : "IndexController.prueba",
-    "/vertoken" : "IndexController.verToken"
+    "/perfil" : "ProfileController.index"
 }

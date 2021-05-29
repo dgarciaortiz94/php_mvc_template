@@ -10,12 +10,12 @@
 </head>
 <body>
     <header class="container header">
-        <p class="display-1">Mi página</p>
+        <p class="display-1"><?= $title ?></p>
     </header>
 
     <section class="container section">
-        <p class="display-2">ERROR 404: NOT FOUND</p>
-        <p class="display-3">No se pudo encontrar el recurso solicitado</p>
+        <p class="display-2"><?= $errorTitle ?></p>
+        <p class="display-3"><?= $errorMessage ?></p>
     </section>
 
     <footer class="container text-center footer">

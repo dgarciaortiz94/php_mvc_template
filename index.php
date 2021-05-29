@@ -12,12 +12,13 @@ session_start();
 require_once "vendor/autoload.php";
 require_once "config/Base.php";
 
-use Controllers\ErrorsController;
+use Controllers\ErrorController;
 use Controllers\IndexController;
 use Controllers\LoginController;
 use Core\Authentication\Auth;
 use Core\Request;
 use Firebase\JWT\ExpiredException;
+use Models\Status;
 
 $uri = $_SERVER['REQUEST_URI'];
 
@@ -31,8 +32,8 @@ if (isset($routes[$uri])) {
     $class = new $namespaceClass;
     $function = $classAndFunction[1];
 }else{
-    $class = new ErrorsController();
-    $function = "error404";
+    $error = new Status(404, "Not found", "No se pudo encontrar el recurso solicitado");
+    return $error->redirectToErrorView();
 }
 
 
@@ -50,21 +51,23 @@ if (isset($_SESSION['token'])) {
         $dataUser = Auth::GetData($_SESSION['token']);
     }catch(ExpiredException $e){
         session_destroy();
-        header("location: /acceso");
+        header("location: /login");
     }
 
     
     foreach ($file as $key => $value) 
     {
         if ($uri == $key && $dataUser->role != $value) {
-            die(header('HTTP/1.1 512 Access not allowed for your user'));
+            $error = new Status(403, "Forbidden", "No posees los permisos requeridos para acceder a este apartado");
+            return $error->redirectToErrorView();
         }
     }
 }else{
     foreach ($file as $key => $value) 
     {
         if ($uri == $key) {
-            die(header('HTTP/1.1 512 Access not allowed for your user'));
+            $error = new Status(401, "Unauthorized", "Necesitas estar logueado para acceder a este apartado");
+            return $error->redirectToErrorView();
         }
     }
 }

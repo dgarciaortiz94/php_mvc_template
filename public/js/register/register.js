@@ -24,13 +24,7 @@ $("#send").click(function(e){
             }else if (error['status'] === 517){
                 message = "Este usuario ya existe";
             }else if (error['status'] === 518){
-                errorText = error["statusText"];
-
-                if (errorText == "There are empty fields") {
-                    message = "Hay campos vacios";
-                }else{
-                    message = "Email no válido";
-                }
+                console.log(error);
             }
             else{
                 console.log(error);

@@ -26,7 +26,7 @@ class Validations
         }
 
         if (!$emailIsValid) {
-            return "email not valid";
+            return $emailIsValid;
         }
 
         return true;
@@ -36,8 +36,8 @@ class Validations
     public static function dataIsEmpty(array $data)
     {
         foreach ($data as $key) {
-            if (empty($key) || $key == " ") {
-                return false;
+            if (empty($key)) {
+                echo $key;
             }
         }
 
@@ -47,9 +47,9 @@ class Validations
 
     public static function validateEmail(string $email)
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
+        $emailIsValid = filter_var($email, FILTER_VALIDATE_EMAIL);
 
-        return true;
+        return $emailIsValid;
     }
 
 }

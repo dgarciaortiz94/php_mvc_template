@@ -1,2 +1,2 @@
 <?php
-define("ROOT", "http://localhost/php_mvc_template/");
+define("ROOT", "http://php_mvc_template.test/");

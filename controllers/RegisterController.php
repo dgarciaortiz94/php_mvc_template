@@ -11,9 +11,11 @@ class RegisterController extends Controller
 
     public function index()
     {
-        $this->data[""] = "";
-
-        $this->render("register/register");
+        if (isset($_SESSION['token'])) {
+            header('location: /');
+        }else{
+            $this->render("register/register");
+        }
     }
 
 

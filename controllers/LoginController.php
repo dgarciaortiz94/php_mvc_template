@@ -11,9 +11,11 @@ class LoginController extends Controller
 
     public function index()
     {
-        $this->data[""] = "";
-
-        $this->render("login/login");
+        if (isset($_SESSION['token'])) {
+            header('location: /');
+        }else{
+            $this->render("login/login");
+        }
     }
 
 

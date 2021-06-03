@@ -2,11 +2,23 @@
 
 namespace Core;
 
+use \Twig\Loader\FilesystemLoader;
+use \Twig\Environment;
+
 Class View
 {
+
+    public function __construct()
+    {
+        $this->loadJquery();
+        $this->loadBootstrap();
+    }
+
+    
     
     public function returnView(string $view, $vars = null)
     {
+        /*
         if (isset($vars)) {
             foreach ($vars as $key => $value) {
                 $$key = $value;
@@ -14,36 +26,36 @@ Class View
         }
 
         require "views/$view.php";
+        */
+
+        $loader = new FilesystemLoader('views');
+        $twig = new Environment($loader, [
+            'debug' => true
+        ]);
+
+        if ($vars == NULL) {
+            echo $twig->render($view . ".php");
+        }else{
+            echo $twig->render($view . ".php", $vars);
+        }
     }
 
 
-    public static function include(String $file)
+    private function loadJquery()
     {
-        include_once "views/includes/$file.php";
+        echo 
+        "<!-- Load Jquery -->
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
     }
 
 
-    public static function require(String $file)
+    private function loadBootstrap()
     {
-        require_once "views/includes/$file.php";
-    }
-
-
-    public static function css(String $file)
-    {
-        echo "public/css/$file.css";
-    }
-
-
-    public static function js(String $file)
-    {
-        echo "public/js/$file.js";
-    }
-
-
-    public static function image(String $file)
-    {
-        echo "public/js/$file";
+        echo 
+        "<!-- Load Bootstrap -->
+        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css'>
+        <script src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js'></script>
+        <script src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js'></script>";
     }
 
 }

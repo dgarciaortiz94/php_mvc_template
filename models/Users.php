@@ -13,6 +13,7 @@ class Users extends Model
     private $status;
     private $token;
     private $role;
+    private $pass;
 
 
     public function __construct()
@@ -43,6 +44,30 @@ class Users extends Model
         $statement = $this->connection->prepare($sql);
         
         $success = $statement->execute(array($this->username, $this->firstname, $this->lastname, $this->email, $this->pass));
+
+        return $success;
+    }
+
+
+    public function updatePersonalData(int $id)
+    {
+        $sql = "UPDATE users SET username = ?, firstname = ?, lastname = ?, email = ? WHERE id = ?";
+
+        $statement = $this->connection->prepare($sql);
+        
+        $success = $statement->execute(array($this->username, $this->firstname, $this->lastname, $this->email, $id));
+
+        return $success;
+    }
+
+
+    public function updatePass(int $id)
+    {
+        $sql = "UPDATE users SET pass = ? WHERE id = ?";
+
+        $statement = $this->connection->prepare($sql);
+        
+        $success = $statement->execute(array($this->pass, $id));
 
         return $success;
     }

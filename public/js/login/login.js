@@ -8,25 +8,18 @@ $("#send").click(function(e){
         data: data,
         type: "POST",
         success: function(response) {
-            location.href = "/";
-        },
-        error: function(error) {
-            let message;
-
-            if (error['status'] === 513) {
-                message = "Usuario o contraseña incorrectos";
-            }else if (error['status'] == 518){
-                message = "Hay campos vacios";
-            }
-            else{
-                console.log(error);
-            }
+            response = JSON.parse(response);
 
             $(".failMessage").remove();
 
-            $("input[name='username']").before("<p class='failMessage'>" + message + "</p>");
-
-            $(".failMessage").animate({opacity: '1'}, "fast");
+            if (response['status'] === true) location.href = "/";
+            else {
+                $("input[name='username']").before("<p class='failMessage'>" + response['response'] + "</p>");
+                $(".failMessage").animate({opacity: '1'}, "fast");
+            }
+        },
+        error: function(error) {
+            console.log(error);
         }
     });
 });

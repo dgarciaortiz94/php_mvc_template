@@ -10,16 +10,16 @@
 </head>
 <body>
     <header class="container header">
-        <p class="display-1"><?= $title ?></p>
+        <p class="display-1">{{title}}</p>
     </header>
 
     <section class="container section">
-        <p class="display-2"><?= $errorTitle ?></p>
-        <p class="display-3"><?= $errorMessage ?></p>
+        <p class="display-2">{{errorTitle}}</p>
+        <p class="display-3">{{errorMessage}}</p>
     </section>
 
     <footer class="container text-center footer">
-        <p class="display-4">MVC Template</p>
+        <p class="display-4">MyFramework Template</p>
         <p class="display-4">Developed by Diego García</p>
     </footer>
 </body>

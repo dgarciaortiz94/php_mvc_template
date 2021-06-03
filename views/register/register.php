@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-        <p class="display-4">MVC Template</p>
+        <p class="display-4">MyFramework Template</p>
     </header>
 
     <section class="container d-flex align-items-center">
@@ -26,7 +26,7 @@
     </section>
 
     <footer class="text-center footer">
-        <p class="container">MVC Template</p>
+        <p class="container">MyFramework Template</p>
         <p>Developed by Diego García</p>
     </footer>
 

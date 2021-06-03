@@ -8,6 +8,13 @@ class Controller
 {
     public $data;
 
+
+    public function __construct()
+    {
+        $this->data['root'] = ROOT;
+    }
+
+
     protected function render(string $view)
     {   
         $viewObject = new View();

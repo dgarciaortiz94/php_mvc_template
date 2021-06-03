@@ -26,7 +26,7 @@ class Validations
         }
 
         if (!$emailIsValid) {
-            return $emailIsValid;
+            return "wrong email";
         }
 
         return true;
@@ -37,7 +37,7 @@ class Validations
     {
         foreach ($data as $key) {
             if (empty($key)) {
-                echo $key;
+                return false;
             }
         }
 

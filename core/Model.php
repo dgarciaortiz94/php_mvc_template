@@ -39,7 +39,7 @@ class Model
 
         $resulset = $statement->fetchAll(PDO::FETCH_OBJ);
 
-        return $resulset;
+        return $resulset[0];
     }
 
 

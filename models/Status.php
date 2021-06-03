@@ -17,7 +17,7 @@ class Status
         $this->statusText = $statusText;
         $this->errorMessage = $errorMessage;
 
-        header("HTTP/1.1" . $status . " " . $statusText, $status);
+        header("HTTP/1.1 " . $status . " " . $statusText, $status);
     }
 
 

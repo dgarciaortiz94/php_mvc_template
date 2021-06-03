@@ -8,31 +8,21 @@ $("#send").click(function(e){
         data: data,
         type: "POST",
         success: function(response) {
-            location.href="/";
-        },
-        error: function(error) {
+            console.log(response);
+            /*
+            response = JSON.parse(response);
+
             $(".failMessage").remove();
 
-            let message;
-
-            if (error['status'] === 514) {
-                message = "Las contraseñas deben coincidir";
-            }else if (error['status'] === 515){
-                console.log(error);
-            }else if (error['status'] === 516){
-                console.log(error);
-            }else if (error['status'] === 517){
-                message = "Este usuario ya existe";
-            }else if (error['status'] === 518){
-                console.log(error);
+            if (response['status'] === true) ;//location.href = "/";
+            else {
+                $("input[name='username']").before("<p class='failMessage'>" + response['response'] + "</p>");
+                $(".failMessage").animate({opacity: '1'}, "fast");
             }
-            else{
-                console.log(error);
-            }
-
-            $("input[name='username']").before("<p class='failMessage'>" + message + "</p>");
-
-            $(".failMessage").animate({opacity: '1'}, "fast");
+            */
+        },
+        error: function(error) {
+            console.log(error);
         }
     });
 });

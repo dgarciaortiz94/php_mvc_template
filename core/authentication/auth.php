@@ -74,8 +74,8 @@ class Auth
 
             $registerIsCorrect = Validations::validateRegister($dataArray, $email);
 
-            if ($registerIsCorrect == "empty fields") $response = ["status" => false, "response" => "Hay campos vacíos"];
-            else if ($registerIsCorrect == "wrong email") $response = ["status" => false, "response" => "El email no tiene un formato correcto"];
+            if ($registerIsCorrect === "empty fields") $response = ["status" => false, "response" => "Hay campos vacíos"];
+            else if ($registerIsCorrect === "wrong email") $response = ["status" => false, "response" => "El email no tiene un formato correcto"];
             else {
                 $pass = password_hash($pass, PASSWORD_DEFAULT);
 
@@ -95,9 +95,7 @@ class Auth
 
                     $token = self::createToken($registeredUser);
 
-                    $success = $user->updateById($registeredUser->id, "token", $token);
-
-                    if ($success) {
+                    if (isset($token)) {
                         $_SESSION['token'] = $token;
 
                         if (isset($$rememberUser)) {
@@ -114,6 +112,7 @@ class Auth
                 }
             }
         }
+
 
         echo json_encode($response);
     }

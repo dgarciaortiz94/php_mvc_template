@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 26-05-2021 a las 13:47:31
+-- Tiempo de generación: 04-06-2021 a las 12:33:58
 -- Versión del servidor: 5.7.24
 -- Versión de PHP: 7.3.27
 
@@ -80,13 +80,22 @@ CREATE TABLE `users` (
   `firstname` varchar(100) NOT NULL,
   `lastname` varchar(100) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
+  `profile_picture` varchar(255) DEFAULT NULL,
   `pass` varchar(255) NOT NULL,
-  `token` text,
   `date_register` datetime NOT NULL,
   `last_connection` datetime NOT NULL,
   `status` enum('0','1') NOT NULL,
   `role` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `firstname`, `lastname`, `email`, `profile_picture`, `pass`, `date_register`, `last_connection`, `status`, `role`) VALUES
+(8, 'diegodenavas', 'Diego', 'García', 'diegodenavas@gmail.com', NULL, '$2y$10$0u9QmIdhNqiJyaONUgRV4.r.zzA3PF9SpWln.AO8vlzFM6qjs5URu', '2021-05-26 16:36:18', '2021-05-26 16:36:18', '0', 1),
+(10, 'moderador', 'moderador', 'moderador', 'moderador@mail.com', NULL, '$2y$10$9EYlc3NyGYhJSTm5Aopul.s4SzbG2uT5G1VNx2ieRvHihGaTcsZWK', '2021-05-29 00:15:45', '2021-05-29 00:15:45', '0', 2),
+(11, 'usuario', 'usuario', 'usuario', 'usuario@mail.com', NULL, '$2y$10$uj/GiuLnhWtX4pCA2j.kA.CP3K.kPGFgV6ZVpqLsGMZ8NQ2cwXwbC', '2021-05-29 00:17:13', '2021-05-29 00:17:13', '0', 3);
 
 --
 -- Índices para tablas volcadas
@@ -119,7 +128,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas

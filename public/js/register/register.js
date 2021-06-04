@@ -8,18 +8,15 @@ $("#send").click(function(e){
         data: data,
         type: "POST",
         success: function(response) {
-            console.log(response);
-            /*
             response = JSON.parse(response);
 
             $(".failMessage").remove();
 
-            if (response['status'] === true) ;//location.href = "/";
+            if (response['status'] === true) location.href = "/";
             else {
                 $("input[name='username']").before("<p class='failMessage'>" + response['response'] + "</p>");
                 $(".failMessage").animate({opacity: '1'}, "fast");
             }
-            */
         },
         error: function(error) {
             console.log(error);

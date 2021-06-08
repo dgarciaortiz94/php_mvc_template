@@ -2,10 +2,8 @@
 
 namespace Controllers;
 
-use Core\Authentication\Auth;
-use Core\Controller;
-use Core\Request;
-use Models\Status;
+use Framework\Core\Controller;
+use Framework\Http\Status\Status;
 
 class StatusController extends Controller
 {

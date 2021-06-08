@@ -1,8 +1,0 @@
-{
-    "/" : "IndexController.index",
-    "/login" : "LoginController.index",
-    "/userLogin" : "LoginController.login",
-    "/registro" : "RegisterController.index",
-    "/userRegister" : "RegisterController.register",
-    "/perfil" : "ProfileController.index"
-}

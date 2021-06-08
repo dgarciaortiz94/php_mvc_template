@@ -25,21 +25,13 @@ class ComposerStaticInit5b6d535421234a3e6cc596afaab2afdc
         array (
             'Models\\' => 7,
         ),
-        'H' => 
-        array (
-            'Helpers\\' => 8,
-        ),
         'F' => 
         array (
+            'Framework\\' => 10,
             'Firebase\\JWT\\' => 13,
-        ),
-        'E' => 
-        array (
-            'Exceptions\\' => 11,
         ),
         'C' => 
         array (
-            'Core\\' => 5,
             'Controllers\\' => 12,
         ),
     );
@@ -61,21 +53,13 @@ class ComposerStaticInit5b6d535421234a3e6cc596afaab2afdc
         array (
             0 => __DIR__ . '/../..' . '/models',
         ),
-        'Helpers\\' => 
+        'Framework\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/helpers',
+            0 => __DIR__ . '/../..' . '/framework',
         ),
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
-        ),
-        'Exceptions\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/exceptions',
-        ),
-        'Core\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/core',
         ),
         'Controllers\\' => 
         array (

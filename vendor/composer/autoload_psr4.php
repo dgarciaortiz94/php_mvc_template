@@ -10,9 +10,7 @@ return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'Models\\' => array($baseDir . '/models'),
-    'Helpers\\' => array($baseDir . '/helpers'),
+    'Framework\\' => array($baseDir . '/framework'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
-    'Exceptions\\' => array($baseDir . '/exceptions'),
-    'Core\\' => array($baseDir . '/core'),
     'Controllers\\' => array($baseDir . '/controllers'),
 );

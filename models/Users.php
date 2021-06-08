@@ -2,8 +2,7 @@
 
 namespace Models;
 
-use Core\Model;
-use PDO;
+use Framework\Core\Model;
 
 class Users extends Model
 {

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404</title>
 
-    <link rel="stylesheet" href="public/css/errors/errors.css">
+    <link rel="stylesheet" href="{{root}}/public/css/errors/errors.css">
 </head>
 <body>
     <header class="container header">

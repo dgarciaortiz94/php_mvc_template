@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'b8960f7ee03e9e6b69a6a5496c8e510ad9c53e08',
+    'reference' => 'ca94965b09c8e65dce51efaa50dd95e376a1b289',
     'name' => 'diegogarcia/checkinput',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'b8960f7ee03e9e6b69a6a5496c8e510ad9c53e08',
+      'reference' => 'ca94965b09c8e65dce51efaa50dd95e376a1b289',
     ),
     'firebase/php-jwt' => 
     array (

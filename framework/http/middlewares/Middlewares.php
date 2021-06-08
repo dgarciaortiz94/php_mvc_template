@@ -1,8 +1,6 @@
 <?php
 
-namespace Core\Middlewares;
-
-use Core\Routes\Routes;
+namespace Framework\Http\Middlewares;
 
 class Middlewares
 {

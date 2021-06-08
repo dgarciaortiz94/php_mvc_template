@@ -68,3 +68,10 @@ footer{
     background-color: rgb(238, 238, 238);
     color: grey;
 }
+
+.failMessage{
+    color: red;
+    opacity: 0.1;
+    text-shadow: rgba(0, 0, 0, 0.7) 1px 1px 1px;
+    margin: auto;
+}

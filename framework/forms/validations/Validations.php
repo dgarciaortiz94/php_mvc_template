@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Validations;
+namespace Framework\Forms\Validations;
 
 class Validations
 {

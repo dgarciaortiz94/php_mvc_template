@@ -2,7 +2,9 @@
 
 namespace Models;
 
-class Roles
+use Framework\Core\Model;
+
+class Roles extends Model
 {
 
     private $id;

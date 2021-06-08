@@ -2,9 +2,10 @@
 
 namespace Controllers;
 
-use Core\Authentication\Auth;
-use Core\Controller;
-use Core\Request;
+use Framework\Authentication\Auth;
+use Framework\Core\Controller;
+use Framework\Forms\Validations\Validations;
+use Framework\Http\Requests\Request;
 use Models\Users;
 
 class ProfileController extends Controller
@@ -48,27 +49,34 @@ class ProfileController extends Controller
         $lastname = $request->post['lastname'];
         $email = $request->post['email'];
 
-        $userObject = new Users();
-        $user = $userObject->constructUser($username, $firstname, $lastname, $email, "");
+        $successValidateForm = Validations::validateRegister($request->post, $email);
 
-        $success = $user->updatePersonalData($id);
+        if ($successValidateForm === "empty fields") $response = ["status" => false, "response" => "Hay campos vacíos"];
+        else if ($successValidateForm === "wrong email") $response = ["status" => false, "response" => "El email no tiene un formato correcto"];
+        else {
+            $userObject = new Users();
+            $user = $userObject->constructUser($username, $firstname, $lastname, $email, "");
 
-        if ($success) {
-            $myUser = $userObject->getByColumn("id", $id)[0];
+            $success = $user->updatePersonalData($id);
 
-            $token = Auth::createToken($myUser);
+            if ($success) {
+                $myUser = $userObject->getByColumn("id", $id)[0];
 
-            $_SESSION['token'] = $token;
+                $token = Auth::createToken($myUser);
 
-            if (isset($_COOKIE['session'])) {
-                $_COOKIE['session'] = $token;
+                $_SESSION['token'] = $token;
+
+                if (isset($_COOKIE['session'])) {
+                    $_COOKIE['session'] = $token;
+                }
+
+                $response = ["status" => true, "response" => "Success"];
+            }else{
+                die(header("HTTP/1.1 515 The user could not be saved"));
             }
-
-            header("location: /perfil");
-        }else{
-            return;
         }
-        
+
+        echo json_encode($response);
     }
 
 
@@ -81,29 +89,41 @@ class ProfileController extends Controller
         $newPass = $request->post['newPass'];
         $repeatNewPass = $request->post['repeatNewPass'];
 
-        if ($newPass !== $repeatNewPass) {
-            return "Las contraseñas no coinciden";
-        }
+        $successValidateForm = Validations::dataIsEmpty($request->post);
 
-        $userObject = new Users();
-        $user = $userObject->getById($id);
+        if ($successValidateForm) {
+            $userObject = new Users();
+            $user = $userObject->getById($id);
+    
+            $passwordIsSame = password_verify($lastPass, $user->pass);
+    
+            if ($passwordIsSame) {
+                $newUserObject = new Users();
+                $newUser = $newUserObject->constructUser("", "", "", "", password_hash($newPass, PASSWORD_DEFAULT));
+    
+                $success = $newUser->updatePass($id);
+    
+                if ($success) {
+                    $response = ["status" => true, "response" => "Success"];
 
-        $passwordIsSame = password_verify($lastPass, $user->pass);
-
-        if ($passwordIsSame) {
-            $newUserObject = new Users();
-            $newUser = $newUserObject->constructUser("", "", "", "", password_hash($newPass, PASSWORD_DEFAULT));
-
-            $success = $newUser->updatePass($id);
-
-            if ($success) {
-                header("location: /perfil");
+                    if ($newPass !== $repeatNewPass) {
+                        $response = ["status" => false, "response" => "Las contraseñas no coinciden"];
+                    }else{
+                        if ($lastPass === $newPass) {
+                            $response = ["status" => false, "response" => "La contraseña antigua y nueva es la misma"];
+                        }
+                    }
+                }else{
+                    die(header("HTTP/1.1 516 The password could not be saved"));
+                }
             }else{
-                return "No se pudo actualizar la contraseña";
-            }
+                $response = ["status" => false, "response" => "La contraseña antigua no es correcta"];
+            }   
         }else{
-            return "La contraseña antigua es errónea";
+            $response = ["status" => false, "response" => "Hay campos vacíos"];
         }
+
+        echo json_encode($response);
     }
 
 }

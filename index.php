@@ -5,12 +5,12 @@ require_once "vendor/autoload.php";
 
 require_once "config/Base.php";
 
-use Core\Authentication\Auth;
-use Core\Middlewares\Middlewares;
-use Core\Request;
-use Core\Routes\Routes;
+use Framework\Authentication\Auth;
+use Framework\Http\Middlewares\Middlewares;
+use Framework\Http\Requests\Request;
+use Framework\Http\Routes\Routes;
+use Framework\Http\Status\Status;
 use Firebase\JWT\ExpiredException;
-use Models\Status;
 
 $uri = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];

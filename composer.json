@@ -10,9 +10,7 @@
     "autoload": {
         "psr-4": {
             "Controllers\\" : "controllers/",
-            "Core\\" : "core/",
-            "Exceptions\\" : "exceptions/",
-            "Helpers\\" : "helpers/",
+            "Framework\\" : "framework/",
             "Models\\" : "models/" 
         }
     },

@@ -2,9 +2,9 @@
 
 namespace Controllers;
 
-use Core\Authentication\Auth;
-use Core\Controller;
-use Core\Request;
+use Framework\Authentication\Auth;
+use Framework\Core\Controller;
+use Framework\Http\Requests\Request;
 
 class LoginController extends Controller
 {

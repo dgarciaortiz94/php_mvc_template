@@ -2,15 +2,17 @@
 
 namespace Controllers;
 
-use Core\Controller;
-use Core\Request;
-
+use Framework\Core\Controller;
+use Framework\Http\Requests\Request;
 
 class IndexController extends Controller
 {
 
     public function index()
     {  
+        $this->data["prueba"] = "miprueba";
+
         $this->render("index");
     }
+
 }

@@ -1,9 +1,8 @@
 <?php
 
-namespace Core\Routes;
+namespace Framework\Http\Routes;
 
-use Core\Middlewares\Middlewares;
-use Core\Routes\Routes as RoutesRoutes;
+use Framework\Http\Middlewares\Middlewares;
 
 class Routes
 {
@@ -26,9 +25,20 @@ class Routes
 
     public static function GET(string $route, string $controllerAndFunction,  array $parameters = NULL)
     {
-        self::$GET[$route] = ["controllerAndFunction" => $controllerAndFunction, "parameters" => $parameters]; //   /usuario/12 = UserController.getUser, [12 => id]
+        $startParameterPosition = strpos($route, "{");
+        $finishParameterPosition = strpos($route, "}");
 
-        return new RoutesRoutes($route);
+        $substringLenght = $finishParameterPosition - $startParameterPosition;
+
+        $parameterName = substr($route, $startParameterPosition, $substringLenght);
+
+        $parameterValue = substr($_SERVER['REQUEST_URI'], $startParameterPosition, $substringLenght);
+
+        $$parameterName = $parameterValue;
+
+        self::$GET[$route] = ["controllerAndFunction" => $controllerAndFunction]; //   /usuario/12 = UserController.getUser, [12 => id]
+
+        return new Routes($route);
     }
 
 
@@ -36,7 +46,7 @@ class Routes
     {
         self::$POST[$route] = ["controllerAndFunction" => $controllerAndFunction];
 
-        return new RoutesRoutes($route);
+        return new Routes($route);
     }
 
 
@@ -44,7 +54,7 @@ class Routes
     {
         self::$PUT[$route] = ["controllerAndFunction" => $controllerAndFunction];
 
-        return new RoutesRoutes($route);
+        return new Routes($route);
     }
 
 
@@ -52,7 +62,7 @@ class Routes
     {
         self::$PATCH[$route] = ["controllerAndFunction" => $controllerAndFunction];
 
-        return new RoutesRoutes($route);
+        return new Routes($route);
     }
 
 
@@ -60,7 +70,7 @@ class Routes
     {
         self::$DELETE[$route] = ["controllerAndFunction" => $controllerAndFunction];
 
-        return new RoutesRoutes($route);
+        return new Routes($route);
     }
 
 

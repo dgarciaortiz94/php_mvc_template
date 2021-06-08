@@ -1,9 +1,9 @@
 <?php
 
-namespace Core\Authentication;
+namespace Framework\Authentication;
 
-use Core\Request;
-use Core\Validations\Validations;
+use Framework\Http\Requests\Request;
+use Framework\Forms\Validations\Validations;
 use Models\Users;
 use Exception;
 use Firebase\JWT\JWT;

@@ -12,7 +12,7 @@ $("#send").click(function(e){
 
             $(".failMessage").remove();
 
-            if (response['status'] === true) location.href = "/";
+            if (response['status'] === true) location.href = "/perfil";
             else {
                 $("input[name='username']").before("<p class='failMessage'>" + response['response'] + "</p>");
                 $(".failMessage").animate({opacity: '1'}, "fast");

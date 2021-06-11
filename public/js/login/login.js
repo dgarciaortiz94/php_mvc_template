@@ -8,6 +8,7 @@ $("#send").click(function(e){
         data: data,
         type: "POST",
         success: function(response) {
+            console.log(response);
             response = JSON.parse(response);
 
             $(".failMessage").remove();

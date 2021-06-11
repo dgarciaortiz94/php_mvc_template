@@ -34,6 +34,21 @@ class Request
     }
 
 
+    public static function setRequest(array $vars)
+    {
+        $request = new Request();
+
+        $httpMethod = strtolower($_SERVER['REQUEST_METHOD']);
+
+        foreach ($vars as $field => $value) {
+            $request->$httpMethod[$field] = $value;
+            $request->requestVars[$_SERVER['REQUEST_METHOD']][$field] = $value;
+        }
+
+        return $request;
+    }
+
+
     public function getRequest()
     {
         return $this->requestVars;

@@ -15,4 +15,10 @@ class IndexController extends Controller
         $this->render("index");
     }
 
+
+    public function prueba(Request $request)
+    {
+        echo "El nombre del usuario es: " . $request->get["name"];
+    }
+
 }

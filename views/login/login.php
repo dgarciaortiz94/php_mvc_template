@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LogIn</title>
 
-    <link rel="stylesheet" href="public/css/login/login.css">
+    <link rel="stylesheet" href="{{css('login/login')}}">
 </head>
 <body>
     <header>
@@ -29,6 +29,6 @@
         <p>Developed by Diego García</p>
     </footer>
 
-    <script src="public/js/login/login.js"></script>
+    <script src="{{js('login/login')}}"></script>
 </body>
 </html>

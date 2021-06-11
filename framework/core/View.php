@@ -4,6 +4,7 @@ namespace Framework\Core;
 
 use \Twig\Loader\FilesystemLoader;
 use \Twig\Environment;
+use Twig\TwigFunction;
 
 Class View
 {
@@ -18,20 +19,28 @@ Class View
     
     public function returnView(string $view, $vars = null)
     {
-        /*
-        if (isset($vars)) {
-            foreach ($vars as $key => $value) {
-                $$key = $value;
-            }
-        }
-
-        require "views/$view.php";
-        */
-
-        $loader = new FilesystemLoader('views');
+        $loader = new FilesystemLoader('../views');
         $twig = new Environment($loader, [
             'debug' => true
         ]);
+
+        $cssFunction = new TwigFunction("css", function(string $patch){
+            return ROOT . "//css/" . $patch . ".css";
+        });
+
+        $jsFunction = new TwigFunction("js", function(string $patch){
+            return ROOT . "//js/" . $patch . ".js";
+        });
+
+        $imageFunction = new TwigFunction("images", function(string $patch){
+            return ROOT . "//images/" . $patch;
+        });
+
+
+        $twig->addFunction($cssFunction);
+        $twig->addFunction($jsFunction);
+        $twig->addFunction($imageFunction);
+
 
         if ($vars == NULL) {
             echo $twig->render($view . ".php");

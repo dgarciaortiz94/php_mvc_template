@@ -14,5 +14,5 @@
     <input type='submit' value='Guardar datos' id='send'>
 </form>
 
-<script src="{{root}}/public/js/profile/personalData.js"></script>
+<script src="{{js('profile/personalData')}}"></script>
 {% endblock %}

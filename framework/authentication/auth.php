@@ -8,7 +8,7 @@ use Models\Users;
 use Exception;
 use Firebase\JWT\JWT;
 
-require_once "config/Sesions.php";
+require_once "../config/Sesions.php";
 
 class Auth
 {

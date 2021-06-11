@@ -5,7 +5,7 @@ namespace Framework\Core;
 use PDO;
 use PDOException;
 
-require "config/Database.php";
+require "../config/Database.php";
 
 class DbConnection extends PDO
 {

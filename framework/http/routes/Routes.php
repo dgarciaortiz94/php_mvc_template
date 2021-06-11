@@ -36,7 +36,7 @@ class Routes
 
         $$parameterName = $parameterValue;
 
-        self::$GET[$route] = ["controllerAndFunction" => $controllerAndFunction]; //   /usuario/12 = UserController.getUser, [12 => id]
+        self::$GET[$route] = $controllerAndFunction; //   /usuario/12 = UserController.getUser, [12 => id]
 
         return new Routes($route);
     }
@@ -44,7 +44,7 @@ class Routes
 
     public static function POST(string $route, string $controllerAndFunction)
     {
-        self::$POST[$route] = ["controllerAndFunction" => $controllerAndFunction];
+        self::$POST[$route] = $controllerAndFunction;
 
         return new Routes($route);
     }
@@ -52,7 +52,7 @@ class Routes
 
     public static function PUT(string $route, string $controllerAndFunction)
     {
-        self::$PUT[$route] = ["controllerAndFunction" => $controllerAndFunction];
+        self::$PUT[$route] = $controllerAndFunction;
 
         return new Routes($route);
     }
@@ -60,7 +60,7 @@ class Routes
 
     public static function PATCH(string $route, string $controllerAndFunction)
     {
-        self::$PATCH[$route] = ["controllerAndFunction" => $controllerAndFunction];
+        self::$PATCH[$route] = $controllerAndFunction;
 
         return new Routes($route);
     }
@@ -68,7 +68,7 @@ class Routes
 
     public static function DELETE(string $route, string $controllerAndFunction)
     {
-        self::$DELETE[$route] = ["controllerAndFunction" => $controllerAndFunction];
+        self::$DELETE[$route] = $controllerAndFunction;
 
         return new Routes($route);
     }

@@ -16,6 +16,11 @@ Routes::POST("/perfil/updateSecurity", "ProfileController.updatePass")->middlewa
 
 
 
-Routes::GET("/perfil/users/{name}", "IndexController.prueba");
-Routes::GET("/perfil/users/{name}/edad/{age}", "IndexController.prueba");
-Routes::GET("/perfil/users/{name}/peso/{weight}", "IndexController.prueba2");
+Routes::GET("/prueba/users", "PruebaController.index");
+Routes::GET("/prueba/users/{name}", "PruebaController.show");
+Routes::POST("/prueba/users", "PruebaController.store");
+Routes::PUT("/prueba/users/{name}", "PruebaController.prueba2");
+Routes::PATCH("/prueba/users/{name}", "PruebaController.update");
+Routes::DELETE("/prueba/users/{name}", "PruebaController.delete");
+
+Routes::GET("/prueba", "PruebaController.prueba");

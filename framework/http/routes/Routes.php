@@ -25,17 +25,6 @@ class Routes
 
     public static function GET(string $route, string $controllerAndFunction,  array $parameters = NULL)
     {
-        $startParameterPosition = strpos($route, "{");
-        $finishParameterPosition = strpos($route, "}");
-
-        $substringLenght = $finishParameterPosition - $startParameterPosition;
-
-        $parameterName = substr($route, $startParameterPosition, $substringLenght);
-
-        $parameterValue = substr($_SERVER['REQUEST_URI'], $startParameterPosition, $substringLenght);
-
-        $$parameterName = $parameterValue;
-
         self::$GET[$route] = $controllerAndFunction; //   /usuario/12 = UserController.getUser, [12 => id]
 
         return new Routes($route);

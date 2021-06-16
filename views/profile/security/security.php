@@ -1,7 +1,7 @@
 {% extends "templates/profile/profile.php" %}
 
 {% block section %}
-<p class='h4'>Datos personales</p>
+<p class='h4'>Seguridad</p>
 <form action='/perfil/updateSecurity' method='POST' id='form'>
     <label for='lastPass'>Antigua contraseña</label>
     <input type='password' name='lastPass'>

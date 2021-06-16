@@ -7,6 +7,12 @@
     <title>Perfil</title>
 
     <link rel='stylesheet' href="{{css('profile/profile')}}">
+
+    <style>
+        .profile-photo{
+            background-image: url('../../images/profiles/image-profile-default.jpg');
+        }
+    </style>
 </head>
 <body>
     <header>

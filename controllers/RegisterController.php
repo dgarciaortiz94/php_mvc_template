@@ -12,7 +12,7 @@ class RegisterController extends Controller
     public function index()
     {
         if (isset($_SESSION['token'])) {
-            header('location: /');
+            header('location: /perfil');
         }else{
             $this->render("register/register");
         }

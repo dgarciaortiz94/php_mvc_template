@@ -98,10 +98,10 @@ if (isset($routes[$uri])) {
                     $nameParameter = str_replace("{", "", $nameParameter);
                     $nameParameter = str_replace("}", "", $nameParameter);
                                                                                     //Guardamos en un array el nombre de la variable y el valor obtenido en la uri de la siguiente manera:
-                    $requestGet[$nameParameter] = $uriArray[$position];            //ej: $requestGet["name"] = "diego";
+                    $requestParams[$nameParameter] = $uriArray[$position];            //ej: $requestGet["name"] = "diego";
                 }
                 
-                $requestGet = Request::setRequest($requestGet);         //Hacemos que request contenga las variables anteriores con los parámetros para usarlas en los controllers.
+                $requestParams = Request::setRequest($requestParams);         //Hacemos que request contenga las variables anteriores con los parámetros para usarlas en los controllers.
         
         
                 $classAndFunction = explode(".", $definitiveRoute);
@@ -149,107 +149,10 @@ if (isset($_SESSION['token'])) {
     }
 }
 
-if (!isset($requestGet)) {
+if (!isset($requestParams)) {
     $request = new Request();
 }else{
-    $request = $requestGet;
+    $request = $requestParams;
 }
 
 $class->$function($request);
-
-
-
-
-/*
-    foreach ($keyArray as $key => $value) {
-        if (isset($coincidentRoute)) {
-            $vars = preg_grep("/[{]+[\w]+[}]+\z/", $keyArray[$key]);
-                                                                        //Si "coincidentRoute" está establecida: almacenamos los parametros de la ruta en "vars".
-            $noVars = preg_grep("/[^{]+[\w]+[^}]+\z/", $keyArray[$key]);      //almacenamos los no parámetros de la ruta en "noVars".
-    
-            $noVarsPositions = array();
-    
-            foreach ($noVars as $key) {
-                $posNoVar = array_search($key, $keyArray);      //Guardamos la posición de cada no parámetro en "posNoVar" y guardamos todas las posiciones
-                array_push($noVarsPositions, $posNoVar);        //en un array
-            }
-    
-            foreach ($noVarsPositions as $pos) {                
-                if ($keyArray[$key][$pos] !== $uriArray[$pos]) {      //Comprobamos que cada posición coincidente de los no parámetros de la ruta y la uri sean iguales.
-                    $sameNoVars = false;                              //Si es así guardamos un valor true en "sameNoVars".
-                }else{
-                    $sameNoVars = true;
-                } 
-            }
-    
-
-            if ($sameNoVars) {
-                $varsPositions = array();
-    
-                foreach ($vars as $key) {
-                    $posVar = array_search($key, $keyArray);           //Guardamos la posición de cada parámetro en "posVar" y guardamos todas las posiciones
-                    array_push($varsPositions, $posVar);               //en un array
-                }
-        
-                $vars = str_replace("{", "", $vars);
-                $vars = str_replace("}", "", $vars);
-        
-        
-                foreach ($varsPositions as $key) {
-                    $nameParameter = $vars[$key];                       //Guardamos en un array el nombre de la variable y el valor obtenido en la uri de la siguiente manera:
-                    $requestGet[$nameParameter] = $uriArray[$key];      //ej: $requestGet["name"] = "diego";
-                }
-                
-                $requestGet = Request::setRequest($requestGet);         //Hacemos que request contenga las variables anteriores con los parámetros para usarlas en los controllers.
-        
-        
-                $classAndFunction = explode(".", $routes[$coincidentRoute]['controllerAndFunction']);
-        
-                $namespaceClass = "Controllers\\" . $classAndFunction[0];
-        
-                $class = new $namespaceClass;
-                $function = $classAndFunction[1];
-            }else{
-                $error = new Status(404, "Not found", "No se pudo encontrar el recurso solicitado");
-                return $error->redirectToErrorView();
-            }
-        }else{
-            $error = new Status(404, "Not found", "No se pudo encontrar el recurso solicitado");
-            return $error->redirectToErrorView();
-        }
-    }
-    
-}
-
-
-//Comprobamos los middlewares para saber si podemos acceder a la ruta especificada con nuestro usuario.
-$middlewares = Middlewares::$middlewares;
-
-if (isset($_SESSION['token'])) {
-    try{
-        $dataUser = Auth::GetData($_SESSION['token']);
-    }catch(ExpiredException $e){
-        session_destroy();
-        header("location: /login");
-    }
-
-
-    if (isset($middlewares[$uri]) && !in_array($dataUser->role, $middlewares[$uri]['role'])) {
-        $error = new Status(403, "Forbidden", "No posees los permisos requeridos para acceder a este apartado");
-        return $error->redirectToErrorView();
-    }
-}else{
-    if (isset($middlewares[$uri])) {
-        $error = new Status(401, "Unauthorized", "Necesitas estar logueado para acceder a este apartado");
-        return $error->redirectToErrorView();
-    }
-}
-
-if (!isset($requestGet)) {
-    $request = new Request();
-}else{
-    $request = $requestGet;
-}
-
-$class->$function($request);
-*/

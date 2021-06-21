@@ -15,7 +15,7 @@ header{
     padding: 2% 5%;
 }
 
-.profile-photo{
+#profile-photo{
     width: 70px;
     height: 70px;
     background-position: center center;
@@ -24,6 +24,7 @@ header{
     border: rgb(0, 194, 0) 2px solid;
     border-radius: 100%;
     padding: 20px;
+    cursor: pointer;
 }
 
 .center-container{
@@ -73,4 +74,58 @@ footer{
     opacity: 0.1;
     text-shadow: rgba(0, 0, 0, 0.7) 1px 1px 1px;
     margin: auto;
+}
+
+
+
+/* -- MODAL IMAGE -- */
+
+#imageModal{
+    display: none; 
+    width: 100vw; 
+    height: 100vh; 
+    background-color: rgba(0, 0, 0, 0.7); 
+    flex-direction: column;
+    position: absolute; 
+    justify-content: center; 
+    align-items: center
+}
+
+#modal-profile-image{
+    background-image: url(images/profiles/image-profile-default.jpg); 
+    width: 500px; 
+    height: 500px; 
+    background-position: center center; 
+    background-size: cover;
+    border-radius: 0 0 10px 10px;
+}
+
+#modal-profile-image>div{
+    display:flex; 
+    gap:12px; 
+    padding:2%;
+}
+
+#imageModal span:hover{
+    cursor: pointer;
+    background-color: grey;
+}
+
+#toolsModal{
+    background-color: #1D2226;
+    color: white;
+    padding-left: 1%;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+}
+
+#toolsModal>span{
+    padding: 2%;
+    border-radius: 5px;
+}
+
+#toolsModal>#closeImage{
+    padding: 2% 4%;
+    border-radius: 0;
 }

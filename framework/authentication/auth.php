@@ -128,6 +128,7 @@ class Auth
                 'username' => $user->username,
                 'firstname' => $user->firstname,
                 'lastname' => $user->lastname,
+                'profile_picture' => $user->profile_picture,
                 'email' => $user->email,
                 'date_register' => $user->date_register,
                 'role' => $user->role,

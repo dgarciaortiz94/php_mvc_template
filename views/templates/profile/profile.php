@@ -9,15 +9,19 @@
     <link rel='stylesheet' href="{{css('profile/profile')}}">
 
     <style>
-        .profile-photo{
-            background-image: url('../../images/profiles/image-profile-default.jpg');
+        
+        #profile-photo{
+            background-image: url(images/profiles/{{userData.profile_picture}});
         }
     </style>
+
+    <link rel="stylesheet" href="node_modules\croppie\croppie.css" />
+    <script src="node_modules\croppie\croppie.js"></script>
 </head>
 <body>
     <header>
         <p class='display-4'>Mi perfil</p>
-        <div class='profile-photo'></div>
+        <div id='profile-photo' name='myFoto.png'></div>
     </header>
 
     <div class='container center-container'>
@@ -47,5 +51,22 @@
         <p class='container'>MyFramework Template</p>
         <p>Developed by Diego García</p>
     </footer>
+
+    <div id='imageModal'>
+        <div>
+            <div id='toolsModal'>
+                <form action="/profile/updatePhotoProfile" method="post" id='updateForm' enctype="multipart/form-data">
+                    <span id='editImage'><i class='fas fa-edit fa-lg'></i></span>
+                    <input id="file" type="file" name="photo" style="display: none;" />
+                </form>
+                <span id='deleteImage'><i class='fas fa-trash-alt fa-lg'></i></span>
+                <span id='closeImage' style='margin-left:auto;'><i class='fas fa-times fa-2x'></i></span>
+            </div>
+
+            <div id='modal-profile-image'></div>
+        </div>
+    </div>
+
+    <script src="{{js('profile/profile')}}"></script>
 </body>
 </html>

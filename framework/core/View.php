@@ -13,6 +13,7 @@ Class View
     {
         $this->loadJquery();
         $this->loadBootstrap();
+        $this->loadFontAwesome();
     }
 
     
@@ -65,6 +66,15 @@ Class View
         <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css'>
         <script src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js'></script>
         <script src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js'></script>";
+    }
+
+    private function loadFontAwesome()
+    {
+        echo
+        "<!-- Load fontawesome -->
+        <script defer src='node_modules/@fortawesome/fontawesome-free/js/brands.js'></script>
+        <script defer src='node_modules/@fortawesome/fontawesome-free/js/solid.js'></script>
+        <script defer src='node_modules/@fortawesome/fontawesome-free/js/fontawesome.js'></script>";
     }
 
 }

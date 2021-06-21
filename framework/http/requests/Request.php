@@ -9,13 +9,22 @@ class Request
 
     public function __construct()
     {
-        if (count($_POST) > 0) {
+        if (count($_POST) > 0 || count($_FILES) > 0) {
             $this->request = $_POST;
             $this->requestVars = array("type" => "POST");
 
-            foreach ($this->request as $field => $value) {
-                $this->post[$field] = $value;
-                $this->requestVars["POST"][$field] = $value;
+            if (count($_FILES) > 0) {
+                $this->request += $_FILES;
+    
+                foreach ($this->request as $field => $value) {
+                    $this->post[$field] = $value;
+                    $this->requestVars["POST"][$field] = $value;
+                }
+            }else{
+                foreach ($this->request as $field => $value) {
+                    $this->post[$field] = $value;
+                    $this->requestVars["POST"][$field] = $value;
+                }
             }
         }
         elseif (count($_GET) > 0) {

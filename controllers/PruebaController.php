@@ -41,11 +41,5 @@ class PruebaController extends Controller
     {
         var_dump($request);
     }
-
-
-    public function prueba()
-    {
-        $this->render("prueba");
-    }
     
 }

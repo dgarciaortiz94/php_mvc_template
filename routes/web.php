@@ -13,7 +13,8 @@ Routes::POST("/userLogin", "LoginController.login");
 Routes::POST("/userRegister", "RegisterController.register");
 Routes::POST("/perfil/updatePersonalData", "ProfileController.updatePersonalData")->middleware("role", [1, 2, 3]);
 Routes::POST("/perfil/updateSecurity", "ProfileController.updatePass")->middleware("role", [1, 2, 3]);
-
+Routes::POST("/profile/deletePhotoProfile", "ProfileController.deletePhotoProfile")->middleware("role", [1, 2, 3]);
+Routes::POST("/profile/updatePhotoProfile", "ProfileController.updatePhotoProfile")->middleware("role", [1, 2, 3]);
 
 
 Routes::GET("/prueba/users", "PruebaController.index");

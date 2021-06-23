@@ -3,3 +3,6 @@ vendor
 
 #Ignore composer.lock
 *.lock
+
+#Ignore npm folder
+node_modules

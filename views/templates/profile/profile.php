@@ -11,17 +11,14 @@
     <style>
         
         #profile-photo{
-            background-image: url(images/profiles/{{userData.profile_picture}});
+            background-image: url({{ROOT}}/images/profiles/{{userData.profile_picture}});
         }
     </style>
-
-    <link rel="stylesheet" href="node_modules\croppie\croppie.css" />
-    <script src="node_modules\croppie\croppie.js"></script>
 </head>
 <body>
     <header>
         <p class='display-4'>Mi perfil</p>
-        <div id='profile-photo' name='myFoto.png'></div>
+        <div id='profile-photo'></div>
     </header>
 
     <div class='container center-container'>
@@ -55,11 +52,14 @@
     <div id='imageModal'>
         <div>
             <div id='toolsModal'>
-                <form action="/profile/updatePhotoProfile" method="post" id='updateForm' enctype="multipart/form-data">
-                    <span id='editImage'><i class='fas fa-edit fa-lg'></i></span>
-                    <input id="file" type="file" name="photo" style="display: none;" />
-                </form>
-                <span id='deleteImage'><i class='fas fa-trash-alt fa-lg'></i></span>
+                <div id='crudButtons'>
+                    <form action="/profile/updatePhotoProfile" method="post" id='updateForm' enctype="multipart/form-data">
+                        <span id='editImage'><i class='fas fa-edit fa-lg'></i></span>
+                        <input id="file" type="file" name="photo" style="display: none;" />
+                    </form>
+                    <span id='deleteImage'><i class='fas fa-trash-alt fa-lg'></i></span>
+                </div>
+                <button id='savePhotoProfile' style="display: none;">Guardar</button>
                 <span id='closeImage' style='margin-left:auto;'><i class='fas fa-times fa-2x'></i></span>
             </div>
 

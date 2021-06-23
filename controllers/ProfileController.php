@@ -10,8 +10,7 @@ use Models\Users;
 
 class ProfileController extends Controller
 {
-
-    public function index()
+    public function __construct()
     {
         $userData = Auth::GetData($_SESSION['token']);
 
@@ -22,7 +21,11 @@ class ProfileController extends Controller
         }
 
         $this->data["userData"] = $userData;
+    }
 
+
+    public function index()
+    {
         $this->render("profile/personalData/personalData");
     }
 
@@ -175,8 +178,14 @@ class ProfileController extends Controller
             //Si el archivo contiene algo y es diferente de vacio
             if (isset($archivo) && $archivo != "") {
                //Obtenemos algunos datos necesarios sobre el archivo
-               $name = str_replace(" ", "-", $archivo["name"]);
+               $userData = Auth::GetData($_SESSION['token']);
+
+               $date = getdate();
+
+               $lastPhoto = $userData->profile_picture;
+
                $tipo = $archivo['type'];
+               $name = "profile-" . $userData->username . "-" . implode("-", $date) . ".jpg";
                $tamano = $archivo['size'];
                $temp = $archivo['tmp_name'];
 
@@ -191,7 +200,6 @@ class ProfileController extends Controller
                     //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
                     chmod('images/profiles/'.$name, 0777);
 
-                    $userData = Auth::GetData($_SESSION['token']);
                     $id = $userData->id;
 
                     $userObject = new Users();
@@ -199,6 +207,15 @@ class ProfileController extends Controller
                     $success = $userObject->updateById($id, "profile_picture", $name);
 
                     if ($success) {
+
+                        $filesOfProfileDir = scandir("images/profiles");
+
+                        $existInProfileDir = in_array($lastPhoto, $filesOfProfileDir);
+
+                        if ($existInProfileDir && $lastPhoto != "image-profile-default.jpg") {
+                            unlink("images/profiles/" . $lastPhoto);
+                        }
+
                         $myUser = $userObject->getByColumn("id", $id)[0];
 
                         $token = Auth::createToken($myUser);
@@ -227,6 +244,14 @@ class ProfileController extends Controller
         }
 
         echo json_encode($response);
+    }
+
+
+
+    function updatePhotoDefinitive(Request $request)
+    {
+        echo json_encode($request->post["photo"]["name"]);
+
     }
 
 }

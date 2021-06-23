@@ -15,6 +15,7 @@ Routes::POST("/perfil/updatePersonalData", "ProfileController.updatePersonalData
 Routes::POST("/perfil/updateSecurity", "ProfileController.updatePass")->middleware("role", [1, 2, 3]);
 Routes::POST("/profile/deletePhotoProfile", "ProfileController.deletePhotoProfile")->middleware("role", [1, 2, 3]);
 Routes::POST("/profile/updatePhotoProfile", "ProfileController.updatePhotoProfile")->middleware("role", [1, 2, 3]);
+Routes::POST("/profile/updatePhotoDefinitive", "ProfileController.updatePhotoDefinitive")->middleware("role", [1, 2, 3]);
 
 
 Routes::GET("/prueba/users", "PruebaController.index");

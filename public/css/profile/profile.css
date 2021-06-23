@@ -92,7 +92,8 @@ footer{
 }
 
 #modal-profile-image{
-    background-image: url(images/profiles/image-profile-default.jpg); 
+    background-image: url(images/profiles/image-profile-default.jpg);
+    background-color: #1D2226;
     width: 500px; 
     height: 500px; 
     background-position: center center; 
@@ -100,32 +101,62 @@ footer{
     border-radius: 0 0 10px 10px;
 }
 
-#modal-profile-image>div{
-    display:flex; 
-    gap:12px; 
-    padding:2%;
-}
-
-#imageModal span:hover{
-    cursor: pointer;
-    background-color: grey;
-}
-
 #toolsModal{
     background-color: #1D2226;
     color: white;
-    padding-left: 1%;
+    padding-left: 5%;
     border-radius: 10px 10px 0 0;
     display: flex;
     align-items: center;
 }
 
-#toolsModal>span{
-    padding: 2%;
+#crudButtons{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+#crudButtons>form{
+    margin: 0;
+    padding: 7px;
     border-radius: 5px;
+    cursor: pointer;
+}
+
+#crudButtons>form:hover{
+    background-color: rgb(71, 71, 71);
+}
+
+#deleteImage{
+    padding: 7px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#deleteImage:hover{
+    background-color: rgb(71, 71, 71);
 }
 
 #toolsModal>#closeImage{
     padding: 2% 4%;
     border-radius: 0;
+}
+
+#closeImage{
+    cursor: pointer;
+}
+
+#savePhotoProfile{
+    background-color: rgb(104, 134, 218);
+    border-radius: 5px;
+    border: rgb(55, 83, 161) 1px solid;
+    transition: ease-in-out 0.2s;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: white;
+}
+
+#savePhotoProfile:hover{
+    background-color: rgb(104, 218, 110);
+    border: rgb(25, 50, 119) 1px solid;
 }

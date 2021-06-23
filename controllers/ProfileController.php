@@ -14,10 +14,10 @@ class ProfileController extends Controller
     {
         $userData = Auth::GetData($_SESSION['token']);
 
-        $imgProfiles = scandir("images/profiles");
+        $imgProfiles = scandir(PROFILEPHOTOS);
 
         if ($userData->profile_picture == NULL || !in_array($userData->profile_picture, $imgProfiles)) {
-            $userData->profile_picture = "image-profile-default.jpg";
+            $userData->profile_picture = DEFAULTPROFILEPHOTO;
         }
 
         $this->data["userData"] = $userData;
@@ -138,14 +138,14 @@ class ProfileController extends Controller
 
     function deletePhotoProfile()
     {
-        $directory = "images/profiles/";
+        $directory = PROFILEPHOTOS;
 
         $userData = Auth::GetData($_SESSION['token']);
         $imgName = $userData->profile_picture;
 
         $userObject = new Users();
 
-        $success = $userObject->updateById($userData->id, "profile_picture", "image-profile-default.jpg");
+        $success = $userObject->updateById($userData->id, "profile_picture", DEFAULTPROFILEPHOTO);
 
         if ($success) {
             if (unlink($directory . $imgName)) {
@@ -172,33 +172,28 @@ class ProfileController extends Controller
     function updatePhotoProfile(Request $request)
     {
         if (isset($request->post["photo"])) {
-            //Recogemos el archivo enviado por el formulario
-            $archivo = $request->post["photo"];
+            $image = $request->post["photo"];
 
-            //Si el archivo contiene algo y es diferente de vacio
-            if (isset($archivo) && $archivo != "") {
-               //Obtenemos algunos datos necesarios sobre el archivo
+            if (isset($image) && $image != "") {
                $userData = Auth::GetData($_SESSION['token']);
-
-               $date = getdate();
 
                $lastPhoto = $userData->profile_picture;
 
-               $tipo = $archivo['type'];
-               $name = "profile-" . $userData->username . "-" . implode("-", $date) . ".jpg";
-               $tamano = $archivo['size'];
-               $temp = $archivo['tmp_name'];
+               $type = $image['type'];
+               $name = "profile-" . $userData->username . "-" . implode("-", getdate()) . ".jpg";  //Create name unique
+               $size = $image['size'];
+               $temp = $image['tmp_name'];
 
-               //Se comprueba si el archivo a cargar es correcto observando su extensión y tamaño
-              if (!((strpos($tipo, "gif") || strpos($tipo, "jpeg") || strpos($tipo, "jpg") || strpos($tipo, "png")) && ($tamano < 2000000))) {
+               //Se comprueba si el image a cargar es correcto observando su extensión y tamaño
+              if (!((strpos($type, "gif") || strpos($type, "jpeg") || strpos($type, "jpg") || strpos($type, "png")) && ($size < 2000000))) {
                 $response = ["response" => false, "message" => "Size or format is incorrect. It´s allowed .gif, .jpeg, jpg, .png as format."];
               }
               else {
-                 //Si la imagen es correcta en tamaño y tipo
+                 //Si la imagen es correcta en tamaño y type
                  //Se intenta subir al servidor
-                 if (move_uploaded_file($temp, 'images/profiles/'.$name)) {
-                    //Cambiamos los permisos del archivo a 777 para poder modificarlo posteriormente
-                    chmod('images/profiles/'.$name, 0777);
+                 if (move_uploaded_file($temp, PROFILEPHOTOS . $name)) {
+                    //Cambiamos los permisos del image a 777 para poder modificarlo posteriormente
+                    chmod(PROFILEPHOTOS . $name, 0777);
 
                     $id = $userData->id;
 
@@ -208,12 +203,12 @@ class ProfileController extends Controller
 
                     if ($success) {
 
-                        $filesOfProfileDir = scandir("images/profiles");
+                        $filesOfProfileDir = scandir(PROFILEPHOTOS);
 
                         $existInProfileDir = in_array($lastPhoto, $filesOfProfileDir);
 
-                        if ($existInProfileDir && $lastPhoto != "image-profile-default.jpg") {
-                            unlink("images/profiles/" . $lastPhoto);
+                        if ($existInProfileDir && $lastPhoto != DEFAULTPROFILEPHOTO) {
+                            unlink(PROFILEPHOTOS . $lastPhoto);
                         }
 
                         $myUser = $userObject->getByColumn("id", $id)[0];
@@ -244,14 +239,6 @@ class ProfileController extends Controller
         }
 
         echo json_encode($response);
-    }
-
-
-
-    function updatePhotoDefinitive(Request $request)
-    {
-        echo json_encode($request->post["photo"]["name"]);
-
     }
 
 }

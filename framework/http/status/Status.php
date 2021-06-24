@@ -2,7 +2,7 @@
 
 namespace Framework\Http\Status;
 
-use Controllers\StatusController;
+use Framework\Http\Status\StatusController;
 
 class Status
 {

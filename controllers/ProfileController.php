@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Framework\Authentication\Auth;
 use Framework\Core\Controller;
+use Framework\Forms\Images\Images;
 use Framework\Forms\Validations\Validations;
 use Framework\Http\Requests\Request;
 use Models\Users;
@@ -24,16 +25,19 @@ class ProfileController extends Controller
     }
 
 
+
     public function index()
     {
         $this->render("profile/personalData/personalData");
     }
 
 
+
     public function security()
     {
         $this->render("profile/security/security");
     }
+
 
 
     public function logOff()
@@ -46,6 +50,7 @@ class ProfileController extends Controller
 
         header("location: /login");
     }
+
 
 
     public function updatePersonalData(Request $request)
@@ -87,6 +92,7 @@ class ProfileController extends Controller
 
         echo json_encode($response);
     }
+
 
 
     public function updatePass(Request $request)
@@ -136,106 +142,80 @@ class ProfileController extends Controller
     }
 
 
+
     function deletePhotoProfile()
     {
-        $directory = PROFILEPHOTOS;
-
         $userData = Auth::GetData($_SESSION['token']);
         $imgName = $userData->profile_picture;
 
-        $userObject = new Users();
-
-        $success = $userObject->updateById($userData->id, "profile_picture", DEFAULTPROFILEPHOTO);
-
-        if ($success) {
-            if (unlink($directory . $imgName)) {
-                $myUser = $userObject->getByColumn("id", $userData->id)[0];
-
-                $token = Auth::createToken($myUser);
-
-                $_SESSION['token'] = $token;
-
-                if (isset($_COOKIE['session'])) {
-                    $_COOKIE['session'] = $token;
+        if($imgName != DEFAULTPROFILEPHOTO){
+            $userObject = new Users();
+            $success = $userObject->updateById($userData->id, "profile_picture", DEFAULTPROFILEPHOTO);
+    
+            if ($success) {
+                if (Images::delete(PROFILEPHOTOS, $imgName)) {
+                    $myUser = $userObject->getByColumn("id", $userData->id)[0];
+                    $token = Auth::createToken($myUser);
+                    $_SESSION['token'] = $token;
+    
+                    if (isset($_COOKIE['session'])) $_COOKIE['session'] = $token;
+    
+                    $response = ["response" => true];
+                } else {
+                    $response = ["response" => false, "message" => "Fail to delete img from server"];
                 }
-
-                echo json_encode(array("response" => true));
-            } else {
-                echo json_encode(array("response" => false, "message" => "Fail to delete img from server"));
+            }else{
+                die(header("HTTP/1.1 520 User can´t be updated"));
             }
         }else{
-            die(header("HTTP/1.1 520 User can´t be updated"));
+            $response = ["response" => true];
         }
+
+        echo json_encode($response);
     }
 
+    
 
     function updatePhotoProfile(Request $request)
     {
         if (isset($request->post["photo"])) {
-            $image = $request->post["photo"];
+            $img = new Images($request->post["photo"], 2000000, ["jpg", "jpeg", "png", "gif", "webp"]);
 
-            if (isset($image) && $image != "") {
-               $userData = Auth::GetData($_SESSION['token']);
+            if ($img->validate()) {
 
-               $lastPhoto = $userData->profile_picture;
+                $userData = Auth::GetData($_SESSION['token']);
 
-               $type = $image['type'];
-               $name = "profile-" . $userData->username . "-" . implode("-", getdate()) . ".jpg";  //Create name unique
-               $size = $image['size'];
-               $temp = $image['tmp_name'];
+                $name = "profile-" . $userData->username . "-" . implode("-", getdate()) . ".jpg";  //Create unique name
 
-               //Se comprueba si el image a cargar es correcto observando su extensión y tamaño
-              if (!((strpos($type, "gif") || strpos($type, "jpeg") || strpos($type, "jpg") || strpos($type, "png")) && ($size < 2000000))) {
-                $response = ["response" => false, "message" => "Size or format is incorrect. It´s allowed .gif, .jpeg, jpg, .png as format."];
-              }
-              else {
-                 //Si la imagen es correcta en tamaño y type
-                 //Se intenta subir al servidor
-                 if (move_uploaded_file($temp, PROFILEPHOTOS . $name)) {
-                    //Cambiamos los permisos del image a 777 para poder modificarlo posteriormente
-                    chmod(PROFILEPHOTOS . $name, 0777);
-
-                    $id = $userData->id;
+                if ($img->upload(PROFILEPHOTOS, $name)) {
+                    $lastPhoto = $userData->profile_picture;
 
                     $userObject = new Users();
-
-                    $success = $userObject->updateById($id, "profile_picture", $name);
+                    $success = $userObject->updateById($userData->id, "profile_picture", $name);
 
                     if ($success) {
+                        $imageExist = Images::exist(PROFILEPHOTOS, $lastPhoto);
 
-                        $filesOfProfileDir = scandir(PROFILEPHOTOS);
-
-                        $existInProfileDir = in_array($lastPhoto, $filesOfProfileDir);
-
-                        if ($existInProfileDir && $lastPhoto != DEFAULTPROFILEPHOTO) {
-                            unlink(PROFILEPHOTOS . $lastPhoto);
+                        if ($imageExist && $lastPhoto != DEFAULTPROFILEPHOTO) {
+                            Images::delete(PROFILEPHOTOS, $lastPhoto);
                         }
 
-                        $myUser = $userObject->getByColumn("id", $id)[0];
-
+                        $myUser = $userObject->getByColumn("id", $userData->id)[0];
                         $token = Auth::createToken($myUser);
-
                         $_SESSION['token'] = $token;
 
-                        if (isset($_COOKIE['session'])) {
-                            $_COOKIE['session'] = $token;
-                        }
+                        if (isset($_COOKIE['session'])) $_COOKIE['session'] = $token;
 
                         $response = ["status" => true, "response" => "Success", "image" => $name];
                     }else{
                         $response = ["status" => false, "response" => "User couldn´t be saved"];
                     }
-                 }
-                 else {
-                    //Si no se ha podido subir la imagen, mostramos un mensaje de error
+                }else{
                     $response = ["response" => false, "message" => "File couldn´t be saved"];
-                 }
-               }
+                }
             }else{
-                die(header("HTTP/1.1 522 File is empty"));
+                $response = ["response" => false, "message" => "Size or format is incorrect. It´s allowed .gif, .jpeg, jpg, .png as format."];
             }
-        }else{
-            die(header("HTTP/1.1 521 No files was sent"));
         }
 
         echo json_encode($response);

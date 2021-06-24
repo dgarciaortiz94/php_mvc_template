@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers;
+namespace Framework\Http\Status;
 
 use Framework\Core\Controller;
 use Framework\Http\Status\Status;

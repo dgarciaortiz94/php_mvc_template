@@ -2,8 +2,8 @@
 
 namespace Controllers;
 
+use Framework\Authentication\Auth;
 use Framework\Core\Controller;
-use Framework\Http\Requests\Request;
 
 class IndexController extends Controller
 {

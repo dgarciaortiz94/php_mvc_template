@@ -3,7 +3,7 @@
 {% block section %}
 <p class='h4'>Datos personales</p>
 <form action='/perfil/updatePersonalData' method='POST' id='form'>
-    <label for='username'>Nick</label>
+    <label for='username'>Nombre de usuario</label>
     <input type='text' name='username' value='{{userData.username}}'>
     <label for='firstname'>Nombre</label>
     <input type='text' name='firstname' value='{{userData.firstname}}'>

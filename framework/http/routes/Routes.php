@@ -67,7 +67,7 @@ class Routes
 
     public function middleware(string $userProperty, array $value)
     {
-        $middleware = new Middlewares($this->route, $userProperty, $value);
+        return new Middlewares($this->route, $userProperty, $value);
     }
 
 }

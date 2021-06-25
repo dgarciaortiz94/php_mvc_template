@@ -7,7 +7,7 @@ use PDO;
 class Model
 {
     protected $connection;
-    private $table;
+    protected $table;
 
 
     public function __construct()

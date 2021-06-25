@@ -5,28 +5,49 @@ require_once "../config/Base.php";
 
 require_once  "../vendor/autoload.php";
 
-use Framework\Authentication\Auth;
 use Framework\Http\Middlewares\Middlewares;
 use Framework\Http\Requests\Request;
 use Framework\Http\Routes\Routes;
 use Framework\Http\Status\Status;
 use Firebase\JWT\ExpiredException;
+use Framework\Authentication\Auth;
+use Framework\Authentication\Token;
 
 $uri = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 
 require "../routes/web.php";
 
+//Auth
+if (isset($_SESSION["auth"])) {
+    Auth::$user = $_SESSION["auth"];
+}
 
-//Comprobamos si hay cookie de sesion(Permanecer Conectado) y en ese caso se la asignamos a la sesión.
-if (!isset($_SESSION['token'])) {
-    if (isset($_COOKIE['session'])) {
-        $_SESSION['token'] = $_COOKIE['session'];
+//Session cookie
+if (!isset(Auth::$user) && isset($_COOKIE['session'])) {
+    Auth::$user = json_decode($_COOKIE['session']);
+}
+
+
+//Middlewares.
+$middlewares = Middlewares::$middlewares;
+
+if (isset(Auth::$user)) {
+    $dataUser = Auth::$user;
+
+    if (isset($middlewares[$uri]) && !in_array($dataUser->role, $middlewares[$uri]['role'])) {
+        $error = new Status(403, "Forbidden", "No posees los permisos requeridos para acceder a este apartado");
+        return $error->redirectToErrorView();
+    }
+}else{
+    if (isset($middlewares[$uri])) {
+        $error = new Status(401, "Unauthorized", "Necesitas estar logueado para acceder a este apartado");
+        return $error->redirectToErrorView();
     }
 }
 
 
-//Sistema de enrutamiento
+//Enrouting
 $routes = Routes::$$method;
 
 if (isset($routes[$uri])) {
@@ -123,30 +144,6 @@ if (isset($routes[$uri])) {
         return $error->redirectToErrorView();
     }
     
-}
-
-
-//Comprobamos los middlewares para saber si podemos acceder a la ruta especificada con nuestro usuario.
-$middlewares = Middlewares::$middlewares;
-
-if (isset($_SESSION['token'])) {
-    try{
-        $dataUser = Auth::GetData($_SESSION['token']);
-    }catch(ExpiredException $e){
-        session_destroy();
-        header("location: /login");
-    }
-
-
-    if (isset($middlewares[$uri]) && !in_array($dataUser->role, $middlewares[$uri]['role'])) {
-        $error = new Status(403, "Forbidden", "No posees los permisos requeridos para acceder a este apartado");
-        return $error->redirectToErrorView();
-    }
-}else{
-    if (isset($middlewares[$uri])) {
-        $error = new Status(401, "Unauthorized", "Necesitas estar logueado para acceder a este apartado");
-        return $error->redirectToErrorView();
-    }
 }
 
 if (!isset($requestParams)) {

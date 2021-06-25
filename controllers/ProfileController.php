@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Framework\Authentication\Auth;
+use Framework\Authentication\Token;
 use Framework\Core\Controller;
 use Framework\Forms\Images\Images;
 use Framework\Forms\Validations\Validations;
@@ -13,7 +14,7 @@ class ProfileController extends Controller
 {
     public function __construct()
     {
-        $userData = Auth::GetData($_SESSION['token']);
+        $userData = Auth::$user;
 
         $imgProfiles = scandir(PROFILEPHOTOS);
 
@@ -27,6 +28,23 @@ class ProfileController extends Controller
 
 
     public function index()
+    {
+        $id = Auth::$user->id;
+
+        $userObject = new Users();
+        $user = $userObject->getByQuery("SELECT username, firstname, lastname, email, profile_picture, date_register, roles.name as role
+                                            FROM users 
+                                            JOIN roles 
+                                            ON roles.id = users.role
+                                            WHERE users.id=$id")[0];
+
+        $this->data["userData"] = $user;
+
+        $this->render("profile/index/index");
+    }
+
+
+    public function personalData()
     {
         $this->render("profile/personalData/personalData");
     }
@@ -45,7 +63,7 @@ class ProfileController extends Controller
         session_destroy();
 
         if (isset($_COOKIE['session'])) {
-            setcookie('session');
+            setcookie('session', "", time() - 3600, "/");
         }
 
         header("location: /login");
@@ -55,7 +73,7 @@ class ProfileController extends Controller
 
     public function updatePersonalData(Request $request)
     {
-        $userData = Auth::GetData($_SESSION['token']);
+        $userData = Auth::$user;
 
         $id = $userData->id;
         $username = $request->post['username'];
@@ -74,15 +92,10 @@ class ProfileController extends Controller
             $success = $user->updatePersonalData($id);
 
             if ($success) {
-                $myUser = $userObject->getByColumn("id", $id)[0];
+                $myUser = $userObject->getById($id);
 
-                $token = Auth::createToken($myUser);
-
-                $_SESSION['token'] = $token;
-
-                if (isset($_COOKIE['session'])) {
-                    $_COOKIE['session'] = $token;
-                }
+                Token::createToken($myUser);
+                Auth::setAuth($myUser);
 
                 $response = ["status" => true, "response" => "Success"];
             }else{
@@ -97,9 +110,7 @@ class ProfileController extends Controller
 
     public function updatePass(Request $request)
     {
-        $userData = Auth::GetData($_SESSION['token']);
-
-        $id = $userData->id;
+        $id = Auth::$user->id;
         $lastPass = $request->post['lastPass'];
         $newPass = $request->post['newPass'];
         $repeatNewPass = $request->post['repeatNewPass'];
@@ -145,7 +156,8 @@ class ProfileController extends Controller
 
     function deletePhotoProfile()
     {
-        $userData = Auth::GetData($_SESSION['token']);
+
+        $userData = Auth::$user;
         $imgName = $userData->profile_picture;
 
         if($imgName != DEFAULTPROFILEPHOTO){
@@ -154,12 +166,11 @@ class ProfileController extends Controller
     
             if ($success) {
                 if (Images::delete(PROFILEPHOTOS, $imgName)) {
-                    $myUser = $userObject->getByColumn("id", $userData->id)[0];
-                    $token = Auth::createToken($myUser);
-                    $_SESSION['token'] = $token;
-    
-                    if (isset($_COOKIE['session'])) $_COOKIE['session'] = $token;
-    
+                    $myUser = $userObject->getById($userData->id);
+
+                    Token::createToken($myUser);  // <---- Aquí está el problema
+                    Auth::setAuth($myUser);
+
                     $response = ["response" => true];
                 } else {
                     $response = ["response" => false, "message" => "Fail to delete img from server"];
@@ -178,44 +189,40 @@ class ProfileController extends Controller
 
     function updatePhotoProfile(Request $request)
     {
-        if (isset($request->post["photo"])) {
-            $img = new Images($request->post["photo"], 2000000, ["jpg", "jpeg", "png", "gif", "webp"]);
+        $img = new Images($request->post["photo"], 2000000, ["jpg", "jpeg", "png", "gif", "webp"]);
 
-            if ($img->validate()) {
+        if ($img->validate()) {
 
-                $userData = Auth::GetData($_SESSION['token']);
+            $userData = Auth::$user;
 
-                $name = "profile-" . $userData->username . "-" . implode("-", getdate()) . ".jpg";  //Create unique name
+            $name = "profile-" . $userData->username . "-" . implode("-", getdate()) . ".jpg";  //Create unique name
 
-                if ($img->upload(PROFILEPHOTOS, $name)) {
-                    $lastPhoto = $userData->profile_picture;
+            if ($img->upload(PROFILEPHOTOS, $name)) {
+                $lastPhoto = $userData->profile_picture;
 
-                    $userObject = new Users();
-                    $success = $userObject->updateById($userData->id, "profile_picture", $name);
+                $userObject = new Users();
+                $success = $userObject->updateById($userData->id, "profile_picture", $name);
 
-                    if ($success) {
-                        $imageExist = Images::exist(PROFILEPHOTOS, $lastPhoto);
+                if ($success) {
+                    $imageExist = Images::exist(PROFILEPHOTOS, $lastPhoto);
 
-                        if ($imageExist && $lastPhoto != DEFAULTPROFILEPHOTO) {
-                            Images::delete(PROFILEPHOTOS, $lastPhoto);
-                        }
-
-                        $myUser = $userObject->getByColumn("id", $userData->id)[0];
-                        $token = Auth::createToken($myUser);
-                        $_SESSION['token'] = $token;
-
-                        if (isset($_COOKIE['session'])) $_COOKIE['session'] = $token;
-
-                        $response = ["status" => true, "response" => "Success", "image" => $name];
-                    }else{
-                        $response = ["status" => false, "response" => "User couldn´t be saved"];
+                    if ($imageExist && $lastPhoto != DEFAULTPROFILEPHOTO) {
+                        Images::delete(PROFILEPHOTOS, $lastPhoto);
                     }
+
+                    $myUser = $userObject->getById($userData->id);
+                    Token::createToken($myUser);
+                    Auth::setAuth($myUser);
+
+                    $response = ["status" => true, "response" => "Success", "image" => $name];
                 }else{
-                    $response = ["response" => false, "message" => "File couldn´t be saved"];
+                    $response = ["status" => false, "response" => "User couldn´t be saved"];
                 }
             }else{
-                $response = ["response" => false, "message" => "Size or format is incorrect. It´s allowed .gif, .jpeg, jpg, .png as format."];
+                $response = ["response" => false, "message" => "File couldn´t be saved"];
             }
+        }else{
+            $response = ["response" => false, "message" => "Size or format is incorrect. It´s allowed .gif, .jpeg, jpg, .png as format."];
         }
 
         echo json_encode($response);

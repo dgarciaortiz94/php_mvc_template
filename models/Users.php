@@ -3,6 +3,7 @@
 namespace Models;
 
 use Framework\Core\Model;
+use PDO;
 
 class Users extends Model
 {
@@ -33,12 +34,27 @@ class Users extends Model
 
         return $user;
     }
+
+
+
+    public function getById(int $id)
+    {
+        $sql = "SELECT id, username, firstname, lastname, email, profile_picture, status, role FROM $this->table WHERE id = ?";
+
+        $statement = $this->connection->prepare($sql);
+        
+        $statement->execute(array($id));
+
+        $resulset = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        return $resulset[0];
+    }
   
 
     public function insertUser()
     {
         $sql = "INSERT INTO users(username, firstname, lastname, email, profile_picture, pass, date_register, last_connection, status, role) 
-                VALUES(?, ?, ?, ?, 'image-profile-default.jpg', ?, SYSDATE(), SYSDATE(), 1, 3)";
+                VALUES(?, ?, ?, ?, 'image-profile-default.jpg', ?, SYSDATE(), SYSDATE(), '1', 3)";
 
         $statement = $this->connection->prepare($sql);
         

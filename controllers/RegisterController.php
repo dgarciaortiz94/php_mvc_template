@@ -11,7 +11,7 @@ class RegisterController extends Controller
 
     public function index()
     {
-        if (isset($_SESSION['token'])) {
+        if (isset(Auth::$user)) {
             header('location: /perfil');
         }else{
             $this->render("register/register");

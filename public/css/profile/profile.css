@@ -160,3 +160,14 @@ footer{
     background-color: rgb(104, 218, 110);
     border: rgb(25, 50, 119) 1px solid;
 }
+
+.profileInfo{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.profileInfo>p:nth-child(even){
+    margin-left: 2%;
+    color: rgb(91, 108, 202);
+}

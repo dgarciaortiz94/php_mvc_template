@@ -7,12 +7,11 @@ $("#send").click(function(e){
         url: '/userRegister',
         data: data,
         type: "POST",
+        dataType: "json",
         success: function(response) {
-            response = JSON.parse(response);
-
             $(".failMessage").remove();
 
-            if (response['status'] === true) location.href = "/";
+            if (response['status'] === true) location.href = "/perfil";
             else {
                 $("input[name='username']").before("<p class='failMessage'>" + response['response'] + "</p>");
                 $(".failMessage").animate({opacity: '1'}, "fast");

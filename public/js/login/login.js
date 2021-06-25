@@ -7,10 +7,8 @@ $("#send").click(function(e){
         url: '/userLogin',
         data: data,
         type: "POST",
+        dataType: "json",
         success: function(response) {
-            console.log(response);
-            response = JSON.parse(response);
-
             $(".failMessage").remove();
 
             if (response['status'] === true) location.href = "/perfil";

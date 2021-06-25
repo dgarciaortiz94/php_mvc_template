@@ -26,7 +26,10 @@
             <nav>
                 <ul class='nav flex-column'>
                     <li class='nav-item'>
-                        <a href="/perfil" class='nav-link profile-section'>Datos personales</a>
+                        <a href="/perfil" class='nav-link profile-section'>Perfil</a>
+                    </li>
+                    <li class='nav-item'>
+                        <a href="/perfil/datos-personales" class='nav-link profile-section'>Datos personales</a>
                     </li>
                     <li class='nav-item'>
                         <a href="/perfil/seguridad" class='nav-link profile-section'>Seguridad</a>

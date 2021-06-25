@@ -5,16 +5,10 @@ namespace Framework\Authentication;
 use Framework\Http\Requests\Request;
 use Framework\Forms\Validations\Validations;
 use Models\Users;
-use Exception;
-use Firebase\JWT\JWT;
-
-require_once "../config/Sesions.php";
 
 class Auth
 {
-    private static $timeExpire = TIME_EXPIRE;
-    private static $secretKey = SECRET_KEY;
-    private static $encrypt = ENCRYPT;
+    public static $user;
 
 
     public static function logIn(Request $request)
@@ -26,9 +20,7 @@ class Auth
 
         if (!$loginIsCorrect) $response = ["status" => false, "response" => "Hay campos vacíos"];
         else{
-            if (isset($request->post['remember'])) {
-                $rememberUser = $request->post['remember'];
-            }
+            if (isset($request->post['remember'])) $rememberUser = $request->post['remember'];
 
             $userObject = new Users;
             $users = $userObject->getByQuery("SELECT * FROM users WHERE username = '$username'");
@@ -37,13 +29,10 @@ class Auth
                 $user = $users[0];
 
                 if (password_verify($pass, $user->pass)) {
-                    $token = self::createToken($user);
+                    Token::createToken($user);
+                    self::setAuth($user);
 
-                    $_SESSION['token'] = $token;
-
-                    if (isset($rememberUser)) {
-                        $_COOKIE['session'] = $token;
-                    }
+                    if (isset($rememberUser)) setcookie("session", json_encode(self::$user), TIME_EXPIRE, "/");
 
                     $response = ["status" => true, "response" => "Success"];
                 }else{
@@ -89,24 +78,14 @@ class Auth
 
                     if ($success) {
                         $registeredUser = $userObject->getByColumn("username", $username)[0];
-                    }else{
-                        die(header("HTTP/1.1 515 The user could not be saved"));
-                    }
 
-                    $token = self::createToken($registeredUser);
-
-                    if (isset($token)) {
-                        $_SESSION['token'] = $token;
-
-                        if (isset($$rememberUser)) {
-                            $_COOKIE['session'] = $token;
-                        }
+                        Token::createToken($registeredUser);
+                        Auth::setAuth($registeredUser);
 
                         $response = ["status" => true, "response" => "Success"];
                     }else{
-                        die(header("HTTP/1.1 516 The token could not be updated"));
+                        die(header("HTTP/1.1 515 The user could not be saved"));
                     }
-
                 }else{
                     $response = ["status" => false, "response" => "El usuario ya existe"];
                 }
@@ -118,75 +97,13 @@ class Auth
     }
 
 
-    public static function createToken($user)
+
+    public static function setAuth($user)
     {
-        $dataToken = array(
-            'exp' => self::$timeExpire,
-            'aud' => self::Aud(),
-            'data' => [
-                'id' => $user->id,
-                'username' => $user->username,
-                'firstname' => $user->firstname,
-                'lastname' => $user->lastname,
-                'profile_picture' => $user->profile_picture,
-                'email' => $user->email,
-                'date_register' => $user->date_register,
-                'role' => $user->role,
-            ]
-        );
+        self::$user = $user;
 
-        $token = JWT::encode($dataToken, self::$secretKey);
+        $_SESSION["auth"] = self::$user;
 
-        return $token;
+        if (isset($_COOKIE['session'])) setcookie("session", json_encode(self::$user), TIME_EXPIRE, "/");
     }
-
-
-    public static function Check($token)
-    {
-        if(empty($token))
-        {
-            throw new Exception("Invalid token supplied.");
-        }
-
-        $decode = JWT::decode(
-            $token,
-            self::$secretKey,
-            self::$encrypt
-        );
-
-        if($decode->aud !== self::Aud())
-        {
-            throw new Exception("Invalid user logged in.");
-        }
-    }
-
-
-    public static function GetData($token)
-    {
-        return JWT::decode(
-            $token,
-            self::$secretKey,
-            self::$encrypt
-        )->data;
-    }
-
-
-    private static function Aud()
-    {
-        $aud = '';
-
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-            $aud = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $aud = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } else {
-            $aud = $_SERVER['REMOTE_ADDR'];
-        }
-
-        $aud .= @$_SERVER['HTTP_USER_AGENT'];
-        $aud .= gethostname();
-
-        return sha1($aud);
-    }
-
 }

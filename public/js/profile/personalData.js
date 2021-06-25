@@ -4,7 +4,7 @@ $("#send").click(function(e){
     let data = $("#form").serialize();
 
     $.ajax({
-        url: '/perfil/updatepersonaldata',
+        url: '/perfil/updatePersonalData',
         data: data,
         type: "POST",
         success: function(response) {

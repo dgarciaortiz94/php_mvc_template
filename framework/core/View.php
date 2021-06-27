@@ -73,9 +73,9 @@ Class View
     {
         echo
         "<!-- Load fontawesome -->
-        <script defer src='/node_modules/@fontawesome/fontawesome-free/js/brands.js'></script>
-        <script defer src='/node_modules/@fontawesome/fontawesome-free/js/solid.js'></script>
-        <script defer src='/node_modules/@fontawesome/fontawesome-free/js/fontawesome.js'></script>";
+        <script defer src='/node_modules/@fortawesome/fontawesome-free/js/brands.js'></script>
+        <script defer src='/node_modules/@fortawesome/fontawesome-free/js/solid.js'></script>
+        <script defer src='/node_modules/@fortawesome/fontawesome-free/js/fontawesome.js'></script>";
     }
 
 

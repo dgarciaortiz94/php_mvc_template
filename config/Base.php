@@ -1,6 +1,6 @@
 <?php
 //ROOT ROUTE
-define("ROOT", "https://php_mvc_template.test/");
+define("ROOT", "http://php-mvc-template.localhost/");
 
 //PROFILES
 define("PROFILEPHOTOS", "images/profiles/");

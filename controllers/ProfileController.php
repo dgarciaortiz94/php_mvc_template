@@ -14,7 +14,14 @@ class ProfileController extends Controller
 {
     public function __construct()
     {
-        $userData = Auth::$user;
+        $id = Auth::$user->id;
+
+        $userObject = new Users();
+        $userData = $userObject->getByQuery("SELECT username, firstname, lastname, email, profile_picture, date_register, roles.name as role
+                                            FROM users 
+                                            JOIN roles 
+                                            ON roles.id = users.role
+                                            WHERE users.id=$id")[0];
 
         $imgProfiles = scandir(PROFILEPHOTOS);
 
@@ -29,17 +36,6 @@ class ProfileController extends Controller
 
     public function index()
     {
-        $id = Auth::$user->id;
-
-        $userObject = new Users();
-        $user = $userObject->getByQuery("SELECT username, firstname, lastname, email, profile_picture, date_register, roles.name as role
-                                            FROM users 
-                                            JOIN roles 
-                                            ON roles.id = users.role
-                                            WHERE users.id=$id")[0];
-
-        $this->data["userData"] = $user;
-
         $this->render("profile/index/index");
     }
 

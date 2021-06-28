@@ -14,6 +14,10 @@
             background-image: url({{ROOT}}/images/profiles/{{userData.profile_picture}});
         }
     </style>
+
+    <!-- Load croppie -->
+    <link rel='stylesheet' href='/node_modules/croppie/croppie.css' />
+    <script src='/node_modules/croppie/croppie.js'></script>
 </head>
 <body>
     <header>

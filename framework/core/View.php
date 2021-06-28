@@ -14,7 +14,6 @@ Class View
         $this->loadJquery();
         $this->loadBootstrap();
         $this->loadFontAwesome();
-        $this->loadCroppie();
     }
 
     
@@ -71,19 +70,11 @@ Class View
 
     private function loadFontAwesome()
     {
-        echo
+        echo 
         "<!-- Load fontawesome -->
         <script defer src='/node_modules/@fortawesome/fontawesome-free/js/brands.js'></script>
         <script defer src='/node_modules/@fortawesome/fontawesome-free/js/solid.js'></script>
         <script defer src='/node_modules/@fortawesome/fontawesome-free/js/fontawesome.js'></script>";
-    }
-
-
-    private function loadCroppie()
-    {
-        echo 
-        "<link rel='stylesheet' href='/node_modules/croppie/croppie.css' />
-        <script src='/node_modules/croppie/croppie.js'></script>";
     }
 
 }

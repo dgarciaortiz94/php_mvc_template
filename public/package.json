@@ -1,0 +1,19 @@
+{
+  "name": "php_mvc_template",
+  "version": "1.0.0",
+  "description": "MVC template for developing applications easily with different functionalities applied by default ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dgarciaortiz94/php_mvc_template.git"
+  },
+  "author": "Diego García Ortiz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dgarciaortiz94/php_mvc_template/issues"
+  },
+  "homepage": "https://github.com/dgarciaortiz94/php_mvc_template#readme"
+}
